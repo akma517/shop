@@ -17,7 +17,12 @@
 	</style>
 </head>
 <body>
-	<div class="container pt-3 center-block" style="width:330px; padding:15px;">
+	<div class="container pt-3">
+		<!-- 서브메뉴 시작 -->
+		<div>
+			<jsp:include page="/partial/submenu.jsp"></jsp:include>
+		</div>
+		<!-- 서브메뉴 종료 -->
 		<div class="center-block text-center" style="width:300px; padding:15px;">
 			<h1>메인페이지</h1>
 			<%
