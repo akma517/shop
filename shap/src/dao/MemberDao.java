@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import db.DBUtil;
+import common.DBUtil;
 import vo.Member;
 
 // 규칙 => 매개변수값은 첫줄에 디버깅

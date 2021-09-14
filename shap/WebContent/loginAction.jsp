@@ -15,7 +15,7 @@
 	Member member = (Member)session.getAttribute("loginMember");
 	
 	if (member != null) {
-		response.sendRedirect("./index.jsp");
+		response.sendRedirect(request.getContextPath() + "/index.jsp");
 		System.out.println("[debug] lgoinAction.jsp => index.jsp로 강제 이동: 이미 로그인한 멤버의 강제 접근을 막았습니다.");
 		return; 
 	}
@@ -29,7 +29,7 @@
 	
 	// 로그인 정보 유효성 검사
 	if (memberId == null || memberPw == null) {
-		response.sendRedirect("./loginForm.jsp");
+		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
 		System.out.println("[debug] loginAction.jsp => loginForm.jsp로 강제 이동: 로그인 정보에 null값이 있어 이전 페이지로 돌려보냈습니다.");
 		return; 
 	}
@@ -46,7 +46,7 @@
 	if(returnedMember == null) {
 		
 		System.out.println("[debug] loginAction.jsp => 로그인 실패 : 일치하는 멤버 정보가 없음");
-		response.sendRedirect("./loginForm.jsp");
+		response.sendRedirect(request.getContextPath() + "/loginForm.jsp");
 		
 		System.out.println("[debug] loginAction.jsp 로직 종료");	
 		
@@ -64,7 +64,7 @@
 		// returnedMember 객체를 사용자의 session에 저장
 		session.setAttribute("loginMember", returnedMember);
 		
-		response.sendRedirect("./index.jsp");
+		response.sendRedirect(request.getContextPath() + "/index.jsp");
 		
 		System.out.println("[debug] loginAction.jsp 로직 종료");	
 		

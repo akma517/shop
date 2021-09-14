@@ -36,14 +36,14 @@
 				Member member = (Member)session.getAttribute("loginMember");
 				
 				if (member != null) {
-					response.sendRedirect("./index.jsp");
+					response.sendRedirect(request.getContextPath() + "./index.jsp");
 					System.out.println("[debug] lgoinForm.jsp => index.jsp로 강제 이동: 이미 로그인한 멤버의 강제 접근을 막았습니다.");
 					return; 
 				}
 				
 			%>
 				<h1>로그인</h1>
-				<form class="form-group" method="post" action="./loginAction.jsp">
+				<form class="form-group" method="post" action="<%=request.getContextPath()%>/loginAction.jsp">
 					<div>MemberId : </div>
 					<div><input class="form-control" type="text" name="memberId"></div>
 					<div>MemberPw : </div>

@@ -36,7 +36,7 @@
 			Member member = (Member)session.getAttribute("loginMember");
 			
 			if (member != null) {
-				response.sendRedirect("./index.jsp");
+				response.sendRedirect(request.getContextPath() + "/index.jsp");
 				System.out.println("[debug] insertMemberForm.jsp => index.jsp로 강제 이동: 이미 로그인한 멤버의 강제 접근을 막았습니다.");
 				return; 
 			}
@@ -44,7 +44,7 @@
 		%>
 			<div class="center-block text-center" style="width:300px; padding:15px;">
 				<h1>회원가입</h1>
-				<form class="form-group" method="post" action="./insertMemberAction.jsp">
+				<form class="form-group" method="post" action="<%=request.getContextPath()%>/insertMemberAction.jsp">
 					<div>ID : </div>
 					<div><input class="form-control" type="text" name="memberId"></div>
 					<div>비밀번호 : </div>

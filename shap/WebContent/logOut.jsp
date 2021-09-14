@@ -8,7 +8,7 @@
 	// 세션을 갱신(초기화)
 	session.invalidate();
 
-	response.sendRedirect("./index.jsp");
+	response.sendRedirect(request.getContextPath() + "/index.jsp");
 	
 	System.out.println("[debug] logOug.jsp 로직 종료");
 	

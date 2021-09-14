@@ -12,7 +12,7 @@
 	Member member = (Member)session.getAttribute("loginMember");
 	
 	if (member != null) {
-		response.sendRedirect("./index.jsp");
+		response.sendRedirect(request.getContextPath() + "/index.jsp");
 		System.out.println("[debug] insertMemberAction.jsp => index.jsp로 강제 이동: 이미 로그인한 멤버의 강제 접근을 막았습니다.");
 		return; 
 	}
@@ -33,7 +33,7 @@
 	
 	// 가입 정보 유효성 검사
 	if (memberId == null || memberName == null || memberAgeString == null || memberGender == null || memberPw == null) {
-		response.sendRedirect("./insertMemberForm.jsp");
+		response.sendRedirect(request.getContextPath() + "/insertMemberForm.jsp");
 		System.out.println("[debug] insertMemberAction.jsp => insertMemberForm.jsp로 강제 이동: 가입 정보에 null값이 있어 이전 페이지로 돌려보냈습니다.");
 		return; 
 	}
@@ -58,16 +58,14 @@
 	if (confirm==1) {
 		
 		System.out.println("[debug] insertMemberAction.jsp => 회원가입 성공");
-		response.sendRedirect("./index.jsp");
-		
+		response.sendRedirect(request.getContextPath() + "/index.jsp");
 		
 		System.out.println("[debug] insertMemberAction.jsp 로직 종료");
 		
 		return;
 	} else {
 		System.out.println("[debug] insertMemberAction.jsp => 회원가입 실패 : 입력 정보를 다시 확인해 주세요.");
-		response.sendRedirect("./index.jsp");
-		
+		response.sendRedirect(request.getContextPath() + "/insertMemberForm.jsp");
 		
 		System.out.println("[debug] insertMemberAction.jsp 로직 종료");
 		

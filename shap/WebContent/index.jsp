@@ -35,15 +35,15 @@
 					// session은 참조 타입만 들어간다.
 					if(session.getAttribute("loginMember") == null) {
 				%>
-					<!-- 로그인 전 -->
-				<div><a href="./loginForm.jsp">로그인</a></div>
-				<div><a href="./insertMemberForm.jsp">회원가입</a></div>
+						<!-- 로그인 전 -->
+						<div><a href="<%=request.getContextPath()%>/loginForm.jsp">로그인</a></div>
+						<div><a href="<%=request.getContextPath()%>/insertMemberForm.jsp">회원가입</a></div>
 				<%
 					} else {
 						Member loginMember = (Member)session.getAttribute("loginMember");
 				%>
-					<!-- 로그인 후 -->
-				<div><%=loginMember.getMemberName() %>님 반갑습니다.<br><a href="./logOut.jsp">로그아웃</a></div>
+						<!-- 로그인 후 -->
+						<div><%=loginMember.getMemberName() %>님 반갑습니다.<br><a href="<%=request.getContextPath()%>/logOut.jsp">로그아웃</a></div>
 				<%
 					}
 					
