@@ -43,14 +43,22 @@
 						Member loginMember = (Member)session.getAttribute("loginMember");
 				%>
 						<!-- 로그인 후 -->
-						<div><%=loginMember.getMemberName() %>님 반갑습니다.<br><a href="<%=request.getContextPath()%>/logOut.jsp">로그아웃</a></div>
+						<div><%=loginMember.getMemberName() %>님 반갑습니다.<br>
+						<a href="<%=request.getContextPath()%>/logOut.jsp">로그아웃</a></div>
 				<%
-					}
 					
-					System.out.println("[debug] index.jsp 로직 종료");	
+						if (loginMember.getMemberLevel() >= 1) {
+				%>
+				 			<div><a href="<%=request.getContextPath()%>/admin/adminIndex.jsp">관리자 페이지</a></div>
+				<%
+						}
+					}
 				%>
 			</div>
 		</div>
 	</div>
 </body>
 </html>
+<% 
+	System.out.println("[debug] index.jsp 로직 종료");	
+%>

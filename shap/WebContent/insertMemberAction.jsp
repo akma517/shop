@@ -63,7 +63,9 @@
 		System.out.println("[debug] insertMemberAction.jsp 로직 종료");
 		
 		return;
+		
 	} else {
+		
 		System.out.println("[debug] insertMemberAction.jsp => 회원가입 실패 : 입력 정보를 다시 확인해 주세요.");
 		response.sendRedirect(request.getContextPath() + "/insertMemberForm.jsp");
 		
