@@ -69,6 +69,13 @@
 			transform: translate(-50%, -50%);
 			z-index: 1;
 		}
+		
+		.centerSearchBar{
+			position: absolute;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 1;
+		}
 	</style>
 </head>
 <body>
@@ -78,18 +85,20 @@
 			<jsp:include page="/partial/adminMenu.jsp"></jsp:include>
 		</div>
 		<!-- 서브메뉴 종료 -->
-		<div class="container-fluid pt-3 center-block">
+		<div class="container-fluid pt-3 center-block" >
 			<table class="table">
 				<thead class="thead-light">	
 					<tr class="align-content-center">
 						<th class="text-center" style="width: 5%">넘버</th>
-						<th class="text-center" style="width: 10%">등급</th>
-						<th class="text-center" style="width: 15%">이름</th>
+						<th class="text-center" style="width: 7%">등급</th>
+						<th class="text-center" style="width: 10%">이름</th>
 						<th class="text-center" style="width: 10%" >나이</th>
 						<th class="text-center" style="width: 10%" >성별</th>
 						<th class="text-center" style="width: 20%" >수정날짜</th>
 						<th class="text-center" style="width: 20%" >가입날짜</th>
-						<th class="text-center" style="width: 10%" ></th>
+						<th class="text-center" style="width: 5%" ></th>
+						<th class="text-center" style="width: 8%" ></th>
+						<th class="text-center" style="width: 5%" ></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -98,7 +107,7 @@
 					%>
 							<tr>
 								<td class="text-center" style="width: 5%"><%=member.getMemberNo()%></td>
-								<td class="text-center" style="width: 10%">
+								<td class="text-center" style="width: 7%">
 				                     <%
 				                        if(member.getMemberLevel() == 0) {
 				                     %>
@@ -111,14 +120,18 @@
 				                        }
 				                     %>
 								</td>
-								<td class="text-center" style="width: 15%"><%=member.getMemberName()%></td>
+								<td class="text-center" style="width: 10%"><%=member.getMemberName()%></td>
 								<td class="text-center" style="width: 10%" ><%=member.getMemberAge()%>세</td>
 								<td class="text-center" style="width: 10%" ><%=member.getMemberGender()%></td>
 								<td class="text-center" style="width: 20%" ><%=member.getUpdateDate()%></td>
 								<td class="text-center" style="width: 20%" ><%=member.getCreateDate()%></td>
-								<td class="text-center" style="width: 10%" >
+								<td class="text-center" style="width: 5%" >
 									<a href="<%=request.getContextPath() %>/admin/updateMemberLevelForm.jsp?memberNo=<%=member.getMemberNo() %>" class="btn btn-outline-primary btn-sm">등급수정</a>
+								</td>
+								<td class="text-center" style="width: 8%" >
 									<a href="<%=request.getContextPath() %>/admin/updateMemberPwForm.jsp?memberNo=<%=member.getMemberNo() %>" class="btn btn-outline-primary btn-sm">비밀번호수정</a>
+								</td>
+								<td class="text-center" style="width: 5%" >
 									<a href="<%=request.getContextPath() %>/admin/deleteMember.jsp?memberNo=<%=member.getMemberNo() %>" class="btn btn-outline-danger btn-sm">강제탈퇴</a>
 								</td>
 							</tr>
@@ -126,7 +139,7 @@
 						}
 					%>
 					<tr>
-						<td colspan="8">
+						<td colspan="10">
 							<div class="text-center">
 								<!-- 네비게이션 페이징 스타일 적용  -->	
 								<ul class="pagination justify-content-center" style="margin:20px 0">
@@ -195,9 +208,12 @@
 										}
 									%>
 								</ul>
-								<form method="get" action="<%=request.getContextPath() %>/admin/selectMemberList.jsp">
-									<input type="search" name="searchMemberId">
-									<input type="submit" value="검색">
+
+								<form class="form-group" method="get" action="<%=request.getContextPath() %>/admin/selectMemberList.jsp">
+									<div class="container-fluid row justify-content-center align-items-center" style="margin:20px 0">
+										<input class="form-control text-center" type="text" name="searchMemberId" style="width:250px">
+										<input class="btn btn-outline-info" type="submit"  value="검색">
+									</div>		
 								</form>
 							</div>
 							<div class="text-right">
