@@ -13,6 +13,28 @@ import vo.Member;
 //actor에 따라 구분하여 메소드를 표기(주석으로)
 public class MemberDao {
 	
+	// no, 수정된 level -> 수정
+	/* [관리자] 회원 등급 수정(update) */
+	// input: Member => memberNo, memberLevel
+	// output(success): 1
+	// output(false): null
+	public void updateMemberLevelByAdmin(Member member) {
+		
+	}
+	
+	// no, 수정된 pw -> 수정
+	public void updateMemberPwByAdmin(Member member) {
+		
+	}
+	
+	// no, 삭제 -> 수정
+	public void deleteMemberByAdmin(Member member) {
+		
+	}
+	
+	
+	
+	
 	/* [관리자] 회원 목록 출력(select) */
 	// input: int => beginRow, rowPerPage, String => searchMemberId
 	// output(success): ArrayList<Member> => memberId, memberName, memberDate, memberGender, memberAge

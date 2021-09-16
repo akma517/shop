@@ -117,9 +117,9 @@
 								<td class="text-center" style="width: 20%" ><%=member.getUpdateDate()%></td>
 								<td class="text-center" style="width: 20%" ><%=member.getCreateDate()%></td>
 								<td class="text-center" style="width: 10%" >
-									<a href="#" class="btn btn-outline-primary btn-sm">등업</a>
-									<a href="<#" class="btn btn-outline-primary btn-sm">수정</a>
-									<a href="#" class="btn btn-outline-danger btn-sm">삭제</a>
+									<a href="<%=request.getContextPath() %>/admin/updateMemberLevelForm.jsp?memberNo=<%=member.getMemberNo() %>" class="btn btn-outline-primary btn-sm">등급수정</a>
+									<a href="<%=request.getContextPath() %>/admin/updateMemberPwForm.jsp?memberNo=<%=member.getMemberNo() %>" class="btn btn-outline-primary btn-sm">비밀번호수정</a>
+									<a href="<%=request.getContextPath() %>/admin/deleteMember.jsp?memberNo=<%=member.getMemberNo() %>" class="btn btn-outline-danger btn-sm">강제탈퇴</a>
 								</td>
 							</tr>
 					<% 

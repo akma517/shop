@@ -6,11 +6,12 @@
 <!-- 관리자메뉴 모듈 -->    
 <div>
 	<ul class="nav justify-content-end">
-		<li class="nav-item"><a class="nav-link" href="#">admin menu1</a></li>
-		<li class="nav-item"><a class="nav-link" href="#">admin menu2</a></li>
-		<li class="nav-item"><a class="nav-link" href="#">admin menu3</a></li>
-		<li class="nav-item"><a class="nav-link" href="#">admin menu4</a></li>
-		<li class="nav-item"><a class="nav-link" href="#">admin menu5</a></li>
+		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/admin/">[전자책 카테고리 관리]</a></li>
+		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/admin/">[전자책 관리]</a></li>
+		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/admin/">[주문 관리]</a></li>
+		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/admin/">[상품평 관리]</a></li>
+		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/admin/">[공지게시판 관리]</a></li>
+		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/admin/">[게시판 관리]</a></li>
 	</ul>
 </div>
 <%
