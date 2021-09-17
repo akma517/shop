@@ -13,11 +13,49 @@ import vo.Member;
 //actor에 따라 구분하여 메소드를 표기(주석으로)
 public class MemberDao {
 	
+	/* [관리자] 회원 아이디 중복 여부 검증(select) */
+	// input: String => memberId
+	// output(success): 0
+	// output(false): 1 or more than 1
+	public int selectMemberIdByAdmin(Member member) throws ClassNotFoundException, SQLException {
+		
+		// 입력값 디버깅
+		System.out.println("[debug] MemberDao.selectMemberIdByAdmin(Member member) => 중복 여부를 검사할 멤버 아이디 : " + member.getMemberId());
+		
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		// 별칭(alias)를 설정할 때, AS를 안붙여줘도 되고, 별칭이 영어일 경우, ""를 사용해주지 않아도 된다.
+		String sql = "SELECT COUNT(*) FROM member WHERE member_id=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1, member.getMemberId());
+		
+		// 쿼리 디버깅
+		System.out.println("[debug] MemberDao.selectMemberIdByAdmin(Member member) => 쿼리문 : " + stmt);
+	
+		ResultSet rs = stmt.executeQuery();
+		
+		int countMember = 0;
+		if (rs.next()) {
+			countMember = rs.getInt(1);	
+		}
+					
+		System.out.println("[debug] MemberDao.selectMemberIdByAdmin(Member member) => 입력받은 멤버 아이디와 일치하는 기존 멤버 아이디의 수 : " + countMember);
+
+		rs.close();
+		stmt.close();
+		conn.close();
+		
+		return countMember;
+		
+	}
+	
 	/* [관리자] 회원 비밀번호 검증(select) */
 	// input: Member => memberId, memberPw
 	// output(success): 1
 	// output(false): 0
-	public int selectMemberOneComeparePwByAdmin(Member member) throws ClassNotFoundException, SQLException {
+	public int selectMemberPwByAdmin(Member member) throws ClassNotFoundException, SQLException {
 		
 		// 입력값 디버깅
 		System.out.println("[debug] MemberDao.selectMemberOneComeparePwByAdmin(String memberId, String memberPw) => 탈퇴할 멤버 아이디 : " + member.getMemberId());

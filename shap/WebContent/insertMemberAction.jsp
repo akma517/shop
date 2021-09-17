@@ -38,6 +38,12 @@
 		return; 
 	}
 	
+	if (memberId.equals("") || memberName.equals("") || memberAgeString.equals("") || memberGender.equals("") || memberPw.equals("")) {
+		response.sendRedirect(request.getContextPath() + "/insertMemberForm.jsp");
+		System.out.println("[debug] insertMemberAction.jsp => insertMemberForm.jsp로 강제 이동: 가입 정보에 공백 값이 있어 이전 페이지로 돌려보냈습니다.");
+		return; 
+	}
+	
 	// 유효성 검사 후, memeberAge의 타입에 맞게 형 변환
 	int memberAge = Integer.parseInt(memberAgeString);
 	

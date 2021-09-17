@@ -62,13 +62,6 @@
 	<title>자바 송현우</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<style type="text/css">
-		.center-block{
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			z-index: 1;
-		}
 		
 		.centerSearchBar{
 			position: absolute;
@@ -85,7 +78,8 @@
 			<jsp:include page="/partial/adminMenu.jsp"></jsp:include>
 		</div>
 		<!-- 서브메뉴 종료 -->
-		<div class="container-fluid pt-3 center-block" >
+		<div class="text-center" style="padding-top:50px;"><h1>회원 목록</h1></div>
+		<div class="container-fluid center-block" style="padding-top:50px;">
 			<table class="table">
 				<thead class="thead-light">	
 					<tr class="align-content-center">
