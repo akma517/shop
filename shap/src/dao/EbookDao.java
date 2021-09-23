@@ -11,17 +11,120 @@ import vo.Ebook;
 
 public class EbookDao {
 	
+	/* [관리자] 전자책 상세보기(select) */
+	// input: Ebook -> ebookImg
+	// output(success): 1
+	// output(false): 0
+	public int updateEbookImgByAdmin(Ebook ebook) throws ClassNotFoundException, SQLException {
+		
+		// 입력값 디버깅
+		System.out.println("[debug] EbookDao.updateEbookImgByAdmin(Ebook ebook) => 사진을 수정할 전자책 넘버 : " + ebook.getEbookNo());
+		System.out.println("[debug] EbookDao.updateEbookImgByAdmin(Ebook ebook) => 수정할 전자책 사진 이름 : " + ebook.getEbookImg());
+		
+		// DB 자원 연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		// 쿼리문 생성
+		String sql = "UPDATE ebook SET ebook_img=?, update_date=NOW() WHERE ebook_no=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		// 쿼리문 세팅
+		stmt.setString(1, ebook.getEbookImg());
+		stmt.setInt(2, ebook.getEbookNo());
+		
+		System.out.println("[debug] EbookDao.updateEbookImgByAdmin(Ebook ebook) => 쿼리문 : " + stmt);
+		
+		int confirm = stmt.executeUpdate();
+		
+		System.out.println("[debug] EbookDao.updateEbookImgByAdmin(Ebook ebook) => 수정된 전자책의 수 : " + confirm);
+		
+		// DB 자원 해제
+		stmt.close();
+		conn.close();
+		
+		return confirm;
+	}
+	
+	/* [관리자] 전자책 상세보기(select) */
+	// input: int -> ebookNo
+	// output(success): Ebook => ebookNo, ebookISBN, ebookTitle, ebookAuthor, ebookCompany, ebookPageCount, ebookPrice, ebookImg, ebookSummary, ebookState, createDate updateDate
+	// output(false): Ebook => null;
+	public Ebook selectEbookOneByAdmin(int ebookNo) throws ClassNotFoundException, SQLException {
+		
+		// 입력값 디버깅
+		System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 상세보기할 전자책 넘버 : " + ebookNo);
+		
+		// DB 자원 연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		// 쿼리문 생성
+		String sql = "SELECT ebook_no ebookNo, category_name categoryName, ebook_isbn ebookISBN, ebook_title ebookTitle, ebook_Author ebookAuthor, ebook_company ebookCompany, ebook_page_count ebookPageCount, ebook_price ebookPrice, ebook_img ebookImg, ebook_summary ebookSummary, ebook_state ebookState, create_date createDate, update_date updateDate FROM ebook WHERE ebook_no=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		// 쿼리문 세팅
+		stmt.setInt(1, ebookNo);
+		
+		System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 쿼리문 : " + stmt);
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		Ebook ebook = new Ebook();
+		
+		if(rs.next()) {
+			
+			// VO에 조회된 전자책 상세 정보를 저장
+			ebook.setEbookNo(rs.getInt("ebookNo"));
+			ebook.setEbookISBN(rs.getString("ebookISBN"));
+			ebook.setCategoryName(rs.getString("categoryName"));
+			ebook.setEbookTitle(rs.getString("ebookTitle"));
+			ebook.setEbookAuthor(rs.getString("ebookAuthor"));
+			ebook.setEbookCompany(rs.getString("ebookCompany"));
+			ebook.setEbookPageCount(rs.getInt("ebookPageCount"));
+			ebook.setEbookPrice(rs.getInt("ebookPrice"));
+			ebook.setEbookImg(rs.getString("ebookImg"));
+			ebook.setEbookSummary(rs.getString("ebookSummary"));
+			ebook.setEbookState(rs.getString("ebookState"));
+			ebook.setCreateDate(rs.getString("createDate"));
+			ebook.setUpdateDate(rs.getString("updateDate"));
+			
+			// 전자책 상세 정보 디버깅
+			System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 전자책 상세정보 넘버: " + ebook.getEbookNo());
+			System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 전자책 상세정보 ISBN: " + ebook.getEbookISBN());
+			System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 전자책 상세정보 카테고리: " + ebook.getCategoryName());
+			System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 전자책 상세정보 제목: " + ebook.getEbookTitle());
+			System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 전자책 상세정보 저자: " + ebook.getEbookAuthor());
+			System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 전자책 상세정보 출판사: " + ebook.getEbookCompany());
+			System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 전자책 상세정보 페이지 수: " + ebook.getEbookPageCount());
+			System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 전자책 상세정보 가격: " + ebook.getEbookPrice());
+			System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 전자책 상세정보 사진: " + ebook.getEbookImg());
+			System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 전자책 상세정보 요약: " + ebook.getEbookSummary());
+			System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 전자책 상세정보 상태: " + ebook.getEbookState());
+			System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 전자책 상세정보 작성날짜: " + ebook.getCreateDate());
+			System.out.println("[debug] EbookDao.selectEbookOneByAdmin(int ebookNo) => 전자책 상세정보 갱신날짜: " + ebook.getUpdateDate());
+			
+		}
+		
+		// DB 자원 해제
+		rs.close();
+		stmt.close();
+		conn.close();
+		
+		return ebook;
+	}
+	
 	/* [관리자] 검색된 전자책 목록 출력(select) */
 	// input: int => beginRow, rowPerPage, String => searchEbookTitle, searchCategoryName
 	// output(success): ArrayList<Ebook> => ebookNo, ebookTitle, categoryName, ebookState
-	// output(false): null
+	// output(false): ArrayList<Ebook> => null
 	public ArrayList<Ebook> selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) throws ClassNotFoundException, SQLException {
 		
 		// 입력값 디버깅
-		System.out.println("[debug] selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => 입력받은 검색한 전자책 제목 : " + searchEbookTitle);
-		System.out.println("[debug] selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => 입력받은 검색한 전자책 종류 : " + searchCategoryName);
-		System.out.println("[debug] selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => 입력받은 시작 행 : " + beginRow);
-		System.out.println("[debug] selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => 입력받은 페이지 당 행 : " + rowPerPage);
+		System.out.println("[debug] EbookDao.selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => 입력받은 검색한 전자책 제목 : " + searchEbookTitle);
+		System.out.println("[debug] EbookDao.selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => 입력받은 검색한 전자책 종류 : " + searchCategoryName);
+		System.out.println("[debug] EbookDao.selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => 입력받은 시작 행 : " + beginRow);
+		System.out.println("[debug] EbookDao.selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => 입력받은 페이지 당 행 : " + rowPerPage);
 		
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
@@ -72,7 +175,7 @@ public class EbookDao {
 		
 		
 		// 쿼리 디버깅
-		System.out.println("[debug] selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => 쿼리문 : " + stmt);
+		System.out.println("[debug] EbookDao.selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => 쿼리문 : " + stmt);
 		
 		ResultSet rs = stmt.executeQuery();
 		
@@ -90,10 +193,10 @@ public class EbookDao {
 			ebook.setEbookState(rs.getString("ebookState"));
 			
 			// 출력값 디버깅
-			System.out.println("[debug] selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => " + i + "번째 전자책 넘버 : " + ebook.getEbookNo());
-			System.out.println("[debug] selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => " + i + "번째 전자책 카테고리 : " + ebook.getCategoryName());
-			System.out.println("[debug] selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => " + i + "번째 전자책 제목 : " + ebook.getEbookTitle());
-			System.out.println("[debug] selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => " + i + "번째 전자책 상태 : " + ebook.getEbookState());
+			System.out.println("[debug] EbookDao.selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => " + i + "번째 전자책 넘버 : " + ebook.getEbookNo());
+			System.out.println("[debug] EbookDao.selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => " + i + "번째 전자책 카테고리 : " + ebook.getCategoryName());
+			System.out.println("[debug] EbookDao.selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => " + i + "번째 전자책 제목 : " + ebook.getEbookTitle());
+			System.out.println("[debug] EbookDao.selectEbookListBySearchEbookTitleAndCategoryName(String searchEbookTitle, String searchCategoryName ,int beginRow, int rowPerPage) => " + i + "번째 전자책 상태 : " + ebook.getEbookState());
 			
 			ebookList.add(ebook);
 			
@@ -116,8 +219,8 @@ public class EbookDao {
 	public int selectCountSearchedEbook(String searchEbookTitle, String searchCategoryName) throws SQLException, ClassNotFoundException {
 		
 		// 입력값 디버깅
-		System.out.println("[debug] selectCountSearchedEbook(String searchEbookTitle, String searchCategoryName) => 입력받은 검색한 전자책 제목 : " + searchEbookTitle);
-		System.out.println("[debug] selectCountSearchedEbook(String searchEbookTitle, String searchCategoryName) => 입력받은 검색한 전자책 카테고리 이름 : " + searchCategoryName);
+		System.out.println("[debug] EbookDao.selectCountSearchedEbook(String searchEbookTitle, String searchCategoryName) => 입력받은 검색한 전자책 제목 : " + searchEbookTitle);
+		System.out.println("[debug] EbookDao.selectCountSearchedEbook(String searchEbookTitle, String searchCategoryName) => 입력받은 검색한 전자책 카테고리 이름 : " + searchCategoryName);
 		
 		
 		// DBUtil 클래스로 connection을 만듬
@@ -162,7 +265,7 @@ public class EbookDao {
 					
 		ResultSet rs = stmt.executeQuery();
 					
-		System.out.println("[debug] selectCountSearchedEbook(String searchEbookTitle, String searchCategoryName) => 쿼리문 : " + stmt);
+		System.out.println("[debug] EbookDao.selectCountSearchedEbook(String searchEbookTitle, String searchCategoryName) => 쿼리문 : " + stmt);
 		
 		int countSearchedEbook = 0;
 		
@@ -170,7 +273,7 @@ public class EbookDao {
 			countSearchedEbook = rs.getInt(1);	
 		}
 					
-		System.out.println("[debug] selectCountSearchedEbook(String searchEbookTitle, String searchCategoryName) => 검색된 전자책의 수 : " + countSearchedEbook);
+		System.out.println("[debug] EbookDao.selectCountSearchedEbook(String searchEbookTitle, String searchCategoryName) => 검색된 전자책의 수 : " + countSearchedEbook);
 
 		rs.close();
 		stmt.close();

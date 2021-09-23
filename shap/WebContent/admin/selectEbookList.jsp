@@ -62,7 +62,6 @@
 	<title>자바 송현우</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<style type="text/css">
-		
 		.centerSearchBar{
 			position: absolute;
 			left: 50%;
@@ -80,7 +79,7 @@
 		<!-- 서브메뉴 종료 -->
 		<div class="text-center" style="padding-top:50px;"><h1>전자책 목록</h1></div>
 		<div class="container-fluid center-block" style="padding-top:50px;">
-			<table class="table">
+			<table class="table table-hover">
 				<thead class="thead-light">	
 					<tr class="align-content-center">
 						<th class="text-center" style="width: 20%">넘버</th>
@@ -96,7 +95,9 @@
 							<tr>
 								<td class="text-center" style="width: 20%"><%=ebook.getEbookNo()%></td>
 								<td class="text-center" style="width: 20%"><%=ebook.getCategoryName()%></td>
-								<td class="text-center" style="width: 40%"><%=ebook.getEbookTitle()%></td>
+								<td class="text-center" style="width: 40%">
+									<a href="<%=request.getContextPath() %>/admin/selectEbookOne.jsp?ebookNo=<%=ebook.getEbookNo()%>"><%=ebook.getEbookTitle()%></a>
+								</td>
 								<td class="text-center" style="width: 20%" ><%=ebook.getEbookState()%></td>
 							</tr>
 					<% 
@@ -175,7 +176,7 @@
 
 								<form class="form-group" method="get" action="<%=request.getContextPath() %>/admin/selectEbookList.jsp">
 									<div class="container-fluid row justify-content-center align-items-center" style="margin:20px 0">
-										<select name="searchCategoryName">
+										<select class="form-control" name="searchCategoryName" style="width:100px">
 											<option value="ALL">전체</option>
 											<%
 												for (Category category : categoryList) {
