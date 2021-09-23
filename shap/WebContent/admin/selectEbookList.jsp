@@ -113,7 +113,7 @@
 										int lastPage = countEbookList /ROW_PER_PAGE;			
 									
 										// 화면 밑단에 보일 네비게이션 페이징 범위 단위값
-										int DISPLAY_RANGE_PAGE = 10;								
+										final int DISPLAY_RANGE_PAGE = 10;								
 										
 										// 현 페이징 범위 시작 숫자를 계산
 										int rangeStartPage = ((currentPage / DISPLAY_RANGE_PAGE) * DISPLAY_RANGE_PAGE);			
@@ -139,12 +139,12 @@
 									     }
 										
 									    // 디버깅용
-									    System.out.println("[debug] 현재 페이지 : " + currentPage);
-									    System.out.println("[debug] 마지막 페이지 : " + lastPage);
-									    System.out.println("[debug] 페이징 범위 단위값 : " + DISPLAY_RANGE_PAGE);
-									    System.out.println("[debug] 페이징 시작 범위 숫자 : " + (rangeStartPage+1));
-									    System.out.println("[debug] 페이징 끝 범위 숫자 : " + rangeEndPage);
-									    System.out.println("[debug] 총 전자책 수 : " + countEbookList);	
+									    System.out.println("[debug] selectEbookList.jsp => 현재 페이지 : " + currentPage);
+									    System.out.println("[debug] selectEbookList.jsp => 마지막 페이지 : " + lastPage);
+									    System.out.println("[debug] selectEbookList.jsp => 페이징 범위 단위값 : " + DISPLAY_RANGE_PAGE);
+									    System.out.println("[debug] selectEbookList.jsp => 페이징 시작 범위 숫자 : " + (rangeStartPage+1));
+									    System.out.println("[debug] selectEbookList.jsp => 페이징 끝 범위 숫자 : " + rangeEndPage);
+									    System.out.println("[debug] selectEbookList.jsp => 총 전자책 수 : " + countEbookList);	
 									    
 									    // 현재 페이지 범위가 네비게이션 페이징 범위 단위값 이상일 경우에만 이전 버튼을 노출(이전 버튼이 노출되어야 할 상황에만 노출시키기 위해)
 										if( rangeStartPage > (DISPLAY_RANGE_PAGE - 1) ) {	
