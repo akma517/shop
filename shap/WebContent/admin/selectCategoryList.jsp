@@ -79,7 +79,7 @@
 								<td class="text-center"><%=category.getCreateDate()%></td>
 								<td class="text-center"><%=category.getUpdateDate()%></td>
 								<td class="text-center" style="width:8%;">
-									<a href="<%=request.getContextPath() %>/admin/updateCategoryStateAction.jsp?categoryName=<%=category.getCategoryName() %>&categoryState=<%=category.getCategoryState() %>" class="btn btn-outline-primary btn-sm">상태 수정</a>
+									<a href="<%=request.getContextPath() %>/admin/updateCategoryStateAction.jsp?categoryName=<%=category.getCategoryName() %>&categoryState=<%=category.getCategoryState() %>" class="btn btn-outline-warning btn-sm">상태 수정</a>
 								</td>
 							</tr>
 					<% 
