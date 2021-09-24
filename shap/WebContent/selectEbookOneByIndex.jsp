@@ -5,16 +5,10 @@
     pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("utf-8");
-	System.out.println("[debug] selectEbookList.jsp 로직 진입");	
-	
-	/* admin 방어 코드 */
-	// 로그인 정보가 없거나 등급이 낮을 경우 강제로 index.jsp로 돌려보낸다.
+	System.out.println("[debug] selectEbookOneByIndex.jsp 로직 진입");	
+
+	// 로그인 정보가 없어도 열람은 가능하도록 강제 이동시키지 않음
     Member loginMember = (Member)session.getAttribute("loginMember");
-    if(loginMember == null || loginMember.getMemberLevel() < 1) {
-       response.sendRedirect(request.getContextPath()+"/index.jsp");
-       System.out.println("[debug] selectEbookOne.jsp => index.jsp로 강제 이동: 접근권한이 없는 이용자의 강제 접근을 막았습니다.");
-       return;
-    } 
     
  	// 전자책 상세보기 설정
     int ebookNo = 1;
@@ -48,7 +42,7 @@
 	<div class="container-fluid pt-3">
 		<!-- 서브메뉴 시작 -->
 		<div>
-			<jsp:include page="/partial/adminMenu.jsp"></jsp:include>
+			<jsp:include page="/partial/submenu.jsp"></jsp:include>
 		</div>
 		<!-- 서브메뉴 종료 -->
 		<div class="text-center" style="padding-top:50px;"><h1>전자책 상세보기</h1></div>
@@ -96,15 +90,13 @@
 				</tbody>
 			</table>
 			<div class="text-right">
-				<a href="<%=request.getContextPath() %>/admin/adminIndex.jsp" class="btn btn-outline-danger btn-sm">삭제</a>
-				<a href="<%=request.getContextPath() %>/admin/adminIndex.jsp" class="btn btn-outline-warning btn-sm">가격수정</a>
-				<a href="<%=request.getContextPath() %>/admin/updateEbookImgForm.jsp?ebookNo=<%=ebook.getEbookNo() %>" class="btn btn-outline-warning btn-sm">이미지수정</a>
-				<a href="<%=request.getContextPath() %>/admin/adminIndex.jsp" class="btn btn-outline-primary btn-sm">관리자페이지로</a>
+				<a href="<%=request.getContextPath() %>/insertOrderAction.jsp?ebookNo=<%=ebook.getEbookNo() %>&memberNo=<%=loginMember.getMemberNo() %>" class="btn btn-outline-info btn-sm">주문하기</a>
+				<a href="<%=request.getContextPath() %>/index.jsp" class="btn btn-outline-primary btn-sm">홈페이지</a>
 			</div>
 		</div>
 	</div>
 </body>
 </html>
 <%
-	System.out.println("[debug] selectEbookOne.jsp 로직 종료");	
+	System.out.println("[debug] selectEbookOneByIndex.jsp 로직 종료");	
 %>

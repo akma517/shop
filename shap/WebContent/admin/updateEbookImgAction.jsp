@@ -5,7 +5,7 @@
 <%@page import="dao.MemberDao"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>http://servlets.com/index.tea
 
 <%
 	/* 사전작업 */
@@ -24,7 +24,13 @@
 	
 	// 넘겨받은 파일을 지정 경로에 저장
 	// MultipartRequest를 기존 Request를 대체하여 사용
-	MultipartRequest mr = new MultipartRequest(request, "F:/git-shap/shap/WebContent/images", 1024*1024*1024, "utf-8", new DefaultFileRenamePolicy());
+	// gdAddr = 구디 아카데미 현장 버젼 주소
+	// homeAddr = 집 버전 주소
+	
+	String gdAddr = "D:/shop_hw/show_hw/shap/WebContent/images";
+	String homeAddr = "F:/git-shap/shap/WebContent/images";
+	
+	MultipartRequest mr = new MultipartRequest(request, gdAddr, 1024*1024*1024, "utf-8", new DefaultFileRenamePolicy());
 	
 	// 입력값 받기
 	// int형은 null로 비교하여 유효성 검사를 할 수 없기에 String으로 유효성 검사 후, int로 변환

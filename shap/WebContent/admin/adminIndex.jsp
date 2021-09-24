@@ -44,6 +44,7 @@
 				<div><%=loginMember.getMemberName() %>님 반갑습니다.</div>
 				<div><a href="<%=request.getContextPath()%>/logOut.jsp">로그아웃</a></div>
 				<div><a href="<%=request.getContextPath()%>/admin/selectMemberList.jsp">멤버 목록 보기</a></div>
+				<div><a href="<%=request.getContextPath()%>/index.jsp">일반 사용자 페이지</a></div>
 			</div>
 		</div>
 	</div>
