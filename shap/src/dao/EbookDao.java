@@ -11,6 +11,117 @@ import vo.Ebook;
 
 public class EbookDao {
 	
+	/* [관리자] [고객] 신규 상품 5개의 전자책 목록 출력(select) */
+	// input: nothing
+	// output(success): ArrayList<Ebook> => ebookNo, ebookTitle, categoryName, ebookState, ebookImg
+	// output(false): ArrayList<Ebook> => null
+	public ArrayList<Ebook> selectEbookListNew() throws ClassNotFoundException, SQLException {
+		
+		// DB 자원 연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		// 쿼리문 생성
+		String sql = "SELECT e.ebook_no ebookNo, e.ebook_title ebookTitle, e.category_name categoryName, e.ebook_state ebookState, e.ebook_img ebookImg FROM (SELECT ebook_no FROM orders GROUP BY ebook_no ORDER BY create_date DESC LIMIT 5) t JOIN ebook e ON e.ebook_no=t.ebook_no";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		// 쿼리 디버깅
+		System.out.println("[debug] EbookDao.selectEbookListNew() => 쿼리문 : " + stmt);
+		
+		// 쿼리문 실행
+		ResultSet rs = stmt.executeQuery();
+		
+		ArrayList<Ebook> ebookList = new ArrayList<Ebook>();
+		
+		int i = 1;
+		
+		while(rs.next()) {
+			
+			Ebook ebook = new Ebook();
+			
+			ebook.setEbookNo(rs.getInt("ebookNo"));
+			ebook.setCategoryName(rs.getString("categoryName"));
+			ebook.setEbookTitle(rs.getString("ebookTitle"));
+			ebook.setEbookState(rs.getString("ebookState"));
+			ebook.setEbookImg(rs.getString("ebookImg"));
+			
+			// 출력값 디버깅
+			System.out.println("[debug] EbookDao.selectEbookListTop() => " + i + "번째 신규 전자책 넘버 : " + ebook.getEbookNo());
+			System.out.println("[debug] EbookDao.selectEbookListTop() => " + i + "번째 신규 전자책 카테고리 : " + ebook.getCategoryName());
+			System.out.println("[debug] EbookDao.selectEbookListTop() => " + i + "번째 신규 전자책 제목 : " + ebook.getEbookTitle());
+			System.out.println("[debug] EbookDao.selectEbookListTop() => " + i + "번째 신규 전자책 상태 : " + ebook.getEbookState());
+			System.out.println("[debug] EbookDao.selectEbookListTop() => " + i + "번째 신규 전자책 이미지 : " + ebook.getEbookImg());
+			
+			ebookList.add(ebook);
+			
+			i += 1;
+			
+		}
+		
+		// DB 자원 헤제
+		rs.close();
+		stmt.close();
+		conn.close();
+		
+		return ebookList;
+	}
+	
+	/* [관리자] [고객] 판매량 상위 5개의 전자책 목록 출력(select) */
+	// input: nothing
+	// output(success): ArrayList<Ebook> => ebookNo, ebookTitle, categoryName, ebookState, ebookImg
+	// output(false): ArrayList<Ebook> => null
+	public ArrayList<Ebook> selectEbookListTop() throws ClassNotFoundException, SQLException {
+		
+		// DB 자원 연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		// 쿼리문 생성
+		String sql = "SELECT e.ebook_no ebookNo, e.ebook_title ebookTitle, e.category_name categoryName, e.ebook_state ebookState, e.ebook_img ebookImg FROM (SELECT  ebook_no, COUNT(ebook_no) AS count_ebook_no FROM orders GROUP BY ebook_no ORDER BY count_ebook_no DESC LIMIT 5) t JOIN ebook e ON e.ebook_no=t.ebook_no";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		// 쿼리 디버깅
+		System.out.println("[debug] EbookDao.selectEbookListTop() => 쿼리문 : " + stmt);
+		
+		// 쿼리문 실행
+		ResultSet rs = stmt.executeQuery();
+		
+		ArrayList<Ebook> ebookList = new ArrayList<Ebook>();
+		
+		int i = 1;
+		
+		while(rs.next()) {
+			
+			Ebook ebook = new Ebook();
+			
+			ebook.setEbookNo(rs.getInt("ebookNo"));
+			ebook.setCategoryName(rs.getString("categoryName"));
+			ebook.setEbookTitle(rs.getString("ebookTitle"));
+			ebook.setEbookState(rs.getString("ebookState"));
+			ebook.setEbookImg(rs.getString("ebookImg"));
+			
+			// 출력값 디버깅
+			System.out.println("[debug] EbookDao.selectEbookListTop() => " + i + "번째 인기 전자책 넘버 : " + ebook.getEbookNo());
+			System.out.println("[debug] EbookDao.selectEbookListTop() => " + i + "번째 인기 전자책 카테고리 : " + ebook.getCategoryName());
+			System.out.println("[debug] EbookDao.selectEbookListTop() => " + i + "번째 인기 전자책 제목 : " + ebook.getEbookTitle());
+			System.out.println("[debug] EbookDao.selectEbookListTop() => " + i + "번째 인기 전자책 상태 : " + ebook.getEbookState());
+			System.out.println("[debug] EbookDao.selectEbookListTop() => " + i + "번째 인기 전자책 이미지 : " + ebook.getEbookImg());
+			
+			ebookList.add(ebook);
+			
+			i += 1;
+			
+		}
+		
+		// DB 자원 헤제
+		rs.close();
+		stmt.close();
+		conn.close();
+		
+		return ebookList;
+	}
+	
+	
 	/* [관리자] 전자책 상세보기(select) */
 	// input: Ebook -> ebookImg
 	// output(success): 1

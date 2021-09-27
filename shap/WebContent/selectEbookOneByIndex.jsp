@@ -90,7 +90,7 @@
 				</tbody>
 			</table>
 			<div class="text-right">
-				<a href="<%=request.getContextPath() %>/insertOrderAction.jsp?ebookNo=<%=ebook.getEbookNo() %>&memberNo=<%=loginMember.getMemberNo() %>" class="btn btn-outline-info btn-sm">주문하기</a>
+				<a href="<%=request.getContextPath() %>/insertOrderAction.jsp?ebookNo=<%=ebook.getEbookNo() %>" class="btn btn-outline-info btn-sm">주문하기</a>
 				<a href="<%=request.getContextPath() %>/index.jsp" class="btn btn-outline-primary btn-sm">홈페이지</a>
 			</div>
 		</div>

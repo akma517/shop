@@ -45,6 +45,12 @@
     // 전자책 리스트 불러오기
     ArrayList<Ebook> ebookList = ebookDao.selectEbookListBySearchEbookTitleAndCategoryNameInIndex(searchEbookTitle, searchCategoryName, beginRow, ROW_PER_PAGE);
     
+    // 판매순(desc)으로 상위 전자책 5개를 노출
+     ArrayList<Ebook> ebookListTop = ebookDao.selectEbookListTop();
+    
+     // 등록순(desc)으로 상위 전자책 5개를 노출
+     ArrayList<Ebook> ebookListNew = ebookDao.selectEbookListNew();
+    
 %>   
 <!DOCTYPE html>
 <html>
@@ -84,7 +90,10 @@
 			%>
 					<!-- 로그인 후 -->
 					<div><%=loginMember.getMemberName() %>님 반갑습니다.<br>
-					<a href="<%=request.getContextPath()%>/logOut.jsp">로그아웃</a></div>
+						<a href="<%=request.getContextPath()%>/logOut.jsp">로그아웃</a><br>
+						<a href="<%=request.getContextPath()%>/selectMembeerInfo.jsp?memberNo=<%=loginMember.getMemberNo() %>">회원정보</a><br>
+						<a href="<%=request.getContextPath()%>/selectOrderListByMember.jsp?memberNo=<%=loginMember.getMemberNo() %>">주문내역</a>
+					</div>
 			<%
 				
 					if (loginMember.getMemberLevel() >= 1) {
@@ -96,6 +105,59 @@
 			%>
 		</div>
 		<div class="container-fluid center-block" style="padding-top:50px;">
+			<h2>신규 상품</h2>
+			<table class="table table-border">
+				<tbody>
+					<tr>
+					<% 
+						for (Ebook ebook : ebookListNew) {
+					%>
+							<td class="text-center" style="width: 20%" >
+								<div>
+									<a href="<%=request.getContextPath()%>/selectEbookOneByIndex.jsp?ebookNo=<%=ebook.getEbookNo() %>">
+										<img src="<%=request.getContextPath()%>/images/<%=ebook.getEbookImg()%>" width="200px" height="200px">
+									</a>
+								</div>
+								<a href="<%=request.getContextPath()%>/selectEbookOneByIndex.jsp?ebookNo=<%=ebook.getEbookNo() %>">
+									제목: <%=ebook.getEbookTitle()%>
+								</a>
+								<div>종류: <%=ebook.getCategoryName()%></div>
+								<div>상태: <%=ebook.getEbookState()%></div>
+							</td>
+					<%
+						}
+					%>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<h2>인기 상품 TOP 5</h2>
+			<table class="table table-border">
+				<tbody>
+					<tr>
+					<% 
+						for (Ebook ebook : ebookListTop) {
+					%>
+							<td class="text-center" style="width: 20%" >
+								<div>
+									<a href="<%=request.getContextPath()%>/selectEbookOneByIndex.jsp?ebookNo=<%=ebook.getEbookNo() %>">
+										<img src="<%=request.getContextPath()%>/images/<%=ebook.getEbookImg()%>" width="200px" height="200px">
+									</a>
+								</div>
+								<a href="<%=request.getContextPath()%>/selectEbookOneByIndex.jsp?ebookNo=<%=ebook.getEbookNo() %>">
+									제목: <%=ebook.getEbookTitle()%>
+								</a>
+								<div>종류: <%=ebook.getCategoryName()%></div>
+								<div>상태: <%=ebook.getEbookState()%></div>
+							</td>
+					<%
+						}
+					%>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<h2>전체 상품</h2>
 			<table class="table table-border">
 				<tbody>
 					<tr>
@@ -122,9 +184,13 @@
 					%>
 							
 							<td class="text-center" style="width: 20%" >
-								<div><img src="<%=request.getContextPath()%>/images/<%=ebook.getEbookImg()%>" width="200px" height="200px"></div>
+								<div>
+									<a href="<%=request.getContextPath()%>/selectEbookOneByIndex.jsp?ebookNo=<%=ebook.getEbookNo() %>">
+										<img src="<%=request.getContextPath()%>/images/<%=ebook.getEbookImg()%>" width="200px" height="200px">
+									</a>
+								</div>
 								<a href="<%=request.getContextPath()%>/selectEbookOneByIndex.jsp?ebookNo=<%=ebook.getEbookNo() %>">
-									<div>제목: <%=ebook.getEbookTitle()%></div>
+									제목: <%=ebook.getEbookTitle()%>
 								</a>
 								<div>종류: <%=ebook.getCategoryName()%></div>
 								<div>상태: <%=ebook.getEbookState()%></div>

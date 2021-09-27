@@ -71,7 +71,7 @@
 			<jsp:include page="/partial/adminMenu.jsp"></jsp:include>
 		</div>
 		<!-- 서브메뉴 종료 -->
-		<div class="text-center" style="padding-top:50px;"><h1>전자책 목록</h1></div>
+		<div class="text-center" style="padding-top:50px;"><h1>주문 목록</h1></div>
 		<div class="container-fluid center-block" style="padding-top:50px;">
 			<table class="table table-hover">
 				<thead class="thead-light">	

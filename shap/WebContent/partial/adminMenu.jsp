@@ -15,5 +15,5 @@
 	</ul>
 </div>
 <%
-	System.out.println("[debug] adminMenu.jsp 로직 진입");
+	System.out.println("[debug] adminMenu.jsp 로직 조료");
 %>

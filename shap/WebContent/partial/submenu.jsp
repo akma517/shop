@@ -14,5 +14,5 @@
 	</ul>
 </div>
 <%
-	System.out.println("[debug] submenu.jsp 로직 진입");
+	System.out.println("[debug] submenu.jsp 로직 종료");
 %>

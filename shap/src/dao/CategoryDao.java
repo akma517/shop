@@ -145,7 +145,7 @@ public class CategoryDao {
 		return categoryList;
 	}
 	
-	/* [비회원] 카테고리 추가(insert) */
+	/* [관리자] 카테고리 추가(insert) */
 	// input:  Category => categoryName, categoryState
 	// output(success): 1
 	// output(false): 0
