@@ -1,3 +1,4 @@
+<%@page import="dao.OrderCommentDao"%>
 <%@page import="vo.OrderComment"%>
 <%@page import="vo.OrderEbookMember"%>
 <%@page import="dao.OrderDao"%>
@@ -61,8 +62,8 @@
 
     
 	// DAO에서 삽입 작업 수행
-	OrderDao orderDao = new OrderDao();
-	int confirm = orderDao.insertOrderComment(orderComment);
+	OrderCommentDao orderCommentDao = new OrderCommentDao();
+	int confirm = orderCommentDao.insertOrderComment(orderComment);
 	
 	if (confirm==1) {
 			

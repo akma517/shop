@@ -6,9 +6,18 @@ public class Order {
 	private int orderPrice;
 	private int ebookNo;
 	private int memberNo;
+	private String orderCommentState;
 	private String createDate;
 	private String updateDate;
 	
+	public String getOrderCommentState() {
+		return orderCommentState;
+	}
+
+	public void setOrderCommentState(String orderCommentState) {
+		this.orderCommentState = orderCommentState;
+	}
+
 
 	public int getOrderNo() {
 		return orderNo;

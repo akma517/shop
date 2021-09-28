@@ -96,11 +96,25 @@
 								<td class="text-center" style="width: 20%"><%=oem.getOrder().getOrderPrice()%></td>
 								<td class="text-center" style="width: 20%" ><%=oem.getOrder().getCreateDate()%></td>
 								<td class="text-center" style="width: 10%" >
-									<a href="<%=request.getContextPath() %>/admin/selectOrderOne.jsp?orderNo=<%=oem.getOrder().getOrderNo()%>">상세내역</a>
+									<a href="<%=request.getContextPath() %>/selectEbookOneByIndex.jsp?ebookNo=<%=oem.getEbook().getEbookNo()%>">상세내역</a>
 								</td>
-								<td class="text-center" style="width: 10%" >
-									<a href="<%=request.getContextPath() %>/insertOrderCommentForm.jsp?orderNo=<%=oem.getOrder().getOrderNo()%>&ebookNo=<%=oem.getEbook().getEbookNo()%>">후기작성</a>
-								</td>
+								<%
+									if (oem.getOrder().getOrderCommentState().equals("N")) {
+								%>
+										<td class="text-center" style="width: 10%" >
+											<a href="<%=request.getContextPath() %>/insertOrderCommentForm.jsp?orderNo=<%=oem.getOrder().getOrderNo()%>&ebookNo=<%=oem.getEbook().getEbookNo()%>">리뷰작성</a>
+										</td>
+										
+								<%
+									} else {
+								%>										
+										<td class="text-center" style="width: 10%" >
+											<a href="<%=request.getContextPath() %>/selectEbookOneByIndex.jsp?ebookNo=<%=oem.getEbook().getEbookNo()%>">작성한 리뷰</a>
+										</td>
+								<%
+									}
+								%>
+
 							</tr>
 					<% 
 						}

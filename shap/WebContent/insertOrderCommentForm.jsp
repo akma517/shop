@@ -58,7 +58,7 @@
 			<jsp:include page="/partial/submenu.jsp"></jsp:include>
 		</div>
 		<!-- 서브메뉴 종료 -->
-		<div class="container pt-3 center-block" style="width:80%; padding:15px;">
+		<div class="container pt-3 center-block"">
 			<div class="center-block text-center" >
 				<h1> 리뷰 작성 </h1>
 				<form class="form" method="post" action="<%=request.getContextPath()%>/insertOrderCommentAction.jsp"  >
@@ -67,15 +67,31 @@
 							<td class="align-middle">
 								별점
 							</td>
-							<td class="align-middle">
-								<div class="form-group" style="width: 100px;">
-									<select class="form-control" name="orderScore">
-								    	<option value="5">5점</option>
-								    	<option value="4">4점</option>
-								    	<option value="3">3점</option>
-								    	<option value="2">2점</option>
-								    	<option value="1">1점</option>
-									</select>
+							<td>
+								<div class="form-check-inline">
+									<label class="form-check-label" for="orderScore"">
+										<input class="form-check-input" type="radio" name="orderScore"" value="1">1점
+									</label>
+								</div>
+								<div class="form-check-inline">
+									<label class="form-check-label" for="orderScore"">
+										<input class="form-check-input" type="radio" name="orderScore" value="2">2점
+									</label>
+								</div>
+								<div class="form-check-inline">
+									<label class="form-check-label" for="orderScore"">
+										<input class="form-check-input" type="radio" name="orderScore" value="3">3점
+									</label>
+								</div>
+								<div class="form-check-inline">
+									<label class="form-check-label" for="orderScore"">
+										<input class="form-check-input" type="radio" name="orderScore" value="4">4점
+									</label>
+								</div>
+								<div class="form-check-inline">
+									<label class="form-check-label" for="orderScore"">
+										<input class="form-check-input" type="radio" name="orderScore" value="5"  checked="checked">5점
+									</label>
 								</div>
 							</td>
 							<td>

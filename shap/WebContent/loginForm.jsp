@@ -16,6 +16,7 @@
 			z-index: 1;
 		}
 	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 	<div class="container-fluid pt-3">
@@ -43,14 +44,35 @@
 					
 				%>
 				<h1>로그인</h1>
-				<form class="form-group" method="post" action="<%=request.getContextPath()%>/loginAction.jsp">
+				<form id="loginForm" class="form-group" method="post" action="<%=request.getContextPath()%>/loginAction.jsp">
 					<div>MemberId : </div>
-					<div><input class="form-control" type="text" name="memberId"></div>
+					<div><input class="form-control" type="text" name="memberId" id="memberId"></div>
 					<div>MemberPw : </div>
-					<div><input class="form-control" type="password" name="memberPw"></div>
+					<div><input class="form-control" type="password" name="memberPw" id="memberPw"></div>
 					<br>
-					<div><input class="btn btn-outline-primary" type="submit" value="로그인"></div>
+					<div><button id="loginButton" class="btn btn-outline-primary">로그인</button></div>
 				</form>
+				<script>
+					// %(() == jquery()
+					$('#loginButton').click(function() {
+						if ($('#memberId').val() == '') {
+							alert('memberId를 입력해 주세요.');
+						} else if ($('#memberPw').val() == '') {
+							alert('memberPw를 입력해 주세요.');
+						}
+						
+						$("#loginForm").submit();
+					})
+					
+					/* 라디오, 체크, 셀레트 등의 다중 값 태그들에게 유효성 검사하는 법(클래스로 선택하는 것이 좋음(배열로 받음))
+					$('#loginButton').click(function() {
+						if ($('.radioButton').length == 0)) {
+							alert('버튼을 하나 이상 선택해 주세요.');
+						} 
+						$("#loginForm").submit();
+					})
+					 */
+				</script>
 			</div>
 		</div>
 	</div>

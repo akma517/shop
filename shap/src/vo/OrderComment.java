@@ -57,5 +57,4 @@ public class OrderComment {
 	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
 	}
-	
 }
