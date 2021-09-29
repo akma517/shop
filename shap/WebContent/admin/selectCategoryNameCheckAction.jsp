@@ -1,8 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <%@page import="vo.Category"%>
 <%@page import="dao.CategoryDao"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="vo.Member"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/XML; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	/* 사전작업 */
@@ -45,21 +46,14 @@
 		
 		System.out.println("[debug] selectCategoryNameCheckAction.jsp => 카테고리 이름 중복 여부 검증 : 통과");
 		
-		// 자바에서 한글을 get 메소드로 보낼 때 한글이 안 깨지도록 하는 메소드 URLEncoder.encode(값, 인코딩)을 사용(https://dream-space.tistory.com/10)
-		response.sendRedirect(request.getContextPath() + "/admin/insertCategoryForm.jsp?categoryNameCheck=" + URLEncoder.encode("사용 가능한 카테고리 이름입니다.","utf-8") + "&checkedCategoryName=" + URLEncoder.encode(category.getCategoryName(),"utf-8"));
-		
-		System.out.println("[debug] selectCategoryNameCheckAction.jsp 로직 종료");
-		
-		return;
-		
 	} else {
 		
 		System.out.println("[debug] selectCategoryNameCheckAction.jsp => 카테고리 이름 중복 여부 검증 : 실패(이미 사용 중인 카테고리 이름)");
-		response.sendRedirect(request.getContextPath() + "/admin/insertCategoryForm.jsp?categoryNameCheck="+ URLEncoder.encode("이미 사용 중인 카테고리 이름입니다.","utf-8"));
-		
-		System.out.println("[debug] selectCategoryNameCheckAction.jsp 로직 종료");
-		
-		return;
+	
 	}
 	
+	System.out.println("[debug] selectCategoryNameCheckAction.jsp 로직 종료");
 %>
+<checkCategoryName>
+	<exist><%=confirm %></exist>
+</checkCategoryName>

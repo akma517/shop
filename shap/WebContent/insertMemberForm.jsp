@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<title>자바 송현우</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<style type="text/css">
 		.center-block{
 			position: absolute;
@@ -56,90 +57,170 @@
 			%>
 			<div class="center-block text-center" >
 				<h1> 회원가입 </h1>
-				<table class="table" >
-					<form class="form" method="post" action="<%=request.getContextPath()%>/selectMemberIdCheckAction.jsp" >
+				<form id="signUpForm" class="form-group" method="post" action="<%=request.getContextPath()%>/insertMemberAction.jsp" >
+					<table class="table table-borderless" >
 						<tr>
 							<td class="align-middle">
-								ID 중복 검사
+								아이디
+								<div>&nbsp;</div>
 							</td>
 							<td>
-								<input class="form-control" type="text" name="memberId">
+								<input class="form-control" type="text" name="memberId" id="memberId">
+								<div id="memberIdCheck" >&nbsp;</div>
 							</td>
 							<td>
-								<input class="btn btn-outline-primary" type="submit" value="중복검사">
+								<button id="memberIdCheckButton" class="btn btn-outline-primary text-center" type="button">중복검사</button>
+								<div>&nbsp;</div>
 							</td>
 						</tr>
-					</form>
-					<form class="form-group" method="post" action="<%=request.getContextPath()%>/insertMemberAction.jsp" >
-					<tr>
-						<td class="align-middle">
-							ID
-						</td>
-						<td>
-							<input class="form-control" type="text" name="memberId" readonly="readonly" value="<%=checkedMemberId %>">
-						</td>
-						<td>
-							<%=memberIdCheck %>
-						</td>
-						<td>
-						</td>
-					</tr>
-					<tr>
-						<td class="align-middle">
-							비밀번호
-						</td>
-						<td>
-							<input class="form-control" type="password" name="memberPw">
-						</td>
-						<td>
-						</td>
-					</tr>
-					<tr>
-						<td class="align-middle">
-							이름
-						</td>
-						<td>
-							<input class="form-control" type="text" name="memberName">
-						</td>
-						<td>
-						</td>
-					</tr>
-					<tr>
-						<td class="align-middle">
-							나이
-						</td>
-						<td>
-							<input class="form-control" type="text" name="memberAge">
-						</td>
-						<td>
-						</td>
-					</tr>
-					<tr>
-						<td class="align-middle">
-							성별
-						</td>
-						<td>
-							<div class="form-check-inline">
-								<label class="form-check-label" for="memberGender">
-									<input class="form-check-input" type="radio" name="memberGender" value="남" checked="checked">남
-								</label>
-							</div>
-							<div class="form-check-inline">
-								<label class="form-check-label" for="memberGender">
-									<input class="form-check-input" type="radio" name="memberGender" value="여">여
-								</label>
-							</div>
-						</td>
-						<td>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="3">
-							<input class="btn btn-outline-primary text-center" type="submit" value="회원가입">
-						</td>
-					</tr>
+						<tr>
+							<td class="align-middle">
+								비밀번호
+								<div>&nbsp;</div>
+							</td>
+							<td>
+								<input class="form-control" type="password" id="memberPw" name="memberPw">
+								<div id="memberPwCheck">&nbsp;</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle">
+								이름
+								<div>&nbsp;</div>
+							</td>
+							<td>
+								<input class="form-control" type="text" id="memberName" name="memberName">
+								<div id="memberNameCheck">&nbsp;</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle">
+								나이
+								<div>&nbsp;</div>
+							</td>
+							<td>
+								<input class="form-control" type="text" id="memberAge" name="memberAge">
+								<div id="memberAgeCheck">&nbsp;</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle">
+								성별
+								<div>&nbsp;</div>
+							</td>
+							<td>
+								<div class="form-check-inline">
+									<label class="form-check-label" for="memberGender">
+										<input class="form-check-input memberGender" type="radio" name="memberGender" value="남">남
+									</label>
+								</div>
+								<div class="form-check-inline">
+									<label class="form-check-label" for="memberGender">
+										<input class="form-check-input memberGender" type="radio" name="memberGender" value="여">여
+									</label>
+								</div>
+								<div id="memberGenderCheck">&nbsp;</div>
+							</td>
+						</tr>
+					</table>
 				</form>
-			</table>
+				<div>
+					<button id="signUpButton" class="btn btn-outline-primary text-center" type="button">회원가입</button>
+				</div>
+				<script>
+					
+					// 아이디 중복 여부를 확인할 변수 (입력한 아이디가 DB에 존재하지 않아야 통과(값이 0이 되야 통과))
+					let existMemberId = 1;
+					
+					// ajax와 XML 방식을 통해 페이지 이동 없이 selectMemberIdCheckAction.jsp의 로직을 수행
+					// 중복 검사를 하기 전, 입력받은 아이디 값이 공백이라면, 먼저 아이디 값을 입력해 달라고 알림
+					// 참고 사이트: https://m.blog.naver.com/pyh3887/221850305991
+					$('#memberIdCheckButton').click(function() {
+						if ($('#memberId').val() == '') {
+							$('#memberIdCheck').html($('<small style="color:red;">').text("아이디를 입력해 주세요."));
+						} else {
+								xhr = new XMLHttpRequest();
+								
+								let memberIdCheck = $('#memberId').val();
+								
+								let address = '<%=request.getContextPath()%>/selectMemberIdCheckAction.jsp?memberId=' + memberIdCheck;
+								console.log(address);
+								
+								xhr.open('GET',address, true);
+								console.log("요청중:");
+								xhr.onreadystatechange = function(){
+									console.log("요청중:");
+									if (xhr.readyState == 4) {
+										if(xhr.status == 200) {
+											let data = xhr.responseXML.getElementsByTagName("exist");
+											console.log("요청 성공:" + xhr.status);
+											
+											if (data[0].childNodes[0].nodeValue == 0) {
+												existMemberId = 0;
+												$('#memberIdCheck').html($('<small style="color:green;">').text("사용 가능한 아이디입니다."));
+											} else {
+												$('#memberIdCheck').html($('<small style="color:red;">').text("이미 사용중인 아이디입니다."));
+											}
+											
+										} else {
+											console.log("요청 실패:" + xhr.status);
+										}
+									}
+								}
+								xhr.send(null);
+							}
+					})
+					
+					/* 유효성 검사 이벤트 */
+					// 입력받아야 할 항목들의 값이 공백인지 아닌지, 아이디 중복 검사는 통과하였는지를 검사하고
+					// 부족한 것이 있다면 이를 알려 이용자에게 정상적으로 값을 받을 수 있게 끔 구현
+ 					$('#signUpButton').click(function() {
+						
+ 						// 중복 검사
+						if (existMemberId !=0 ) {
+							
+							$('#memberIdCheck').html($('<small style="color:red;">').text("중복검사를 통과해 주세요."));
+						
+						// 비밀번호 검사
+						} else if ($('#memberPw').val() == '') {
+							
+							$('#memberPwCheck').html($('<small style="color:red;">').text("비밀번호를 입력해 주세요."));
+						
+						// 이름 검사
+						} else if ($('#memberName').val() == '') {
+							
+							// 기존 유효성 검사 불통과 안내 코멘트 삭제(id 중복 검사 통과 안내 코멘트는 유지)
+							$('#memberPwCheck').html("&nbsp;");
+							
+							$('#memberNameCheck').html($('<small style="color:red;">').text("이름을 입력해 주세요."));
+						
+						// 나이 검사
+						} else if ($('#memberAge').val() == '') {
+							
+							// 기존 유효성 검사 불통과 안내 코멘트 삭제(id 중복 검사 통과 안내 코멘트는 유지)
+							$('#memberPwCheck').html("&nbsp;");
+							$('#memberNameCheck').html("&nbsp;");
+							
+							$('#memberAgeCheck').html($('<small style="color:red;">').text("나이를 입력해 주세요."));
+							
+						// 성별 검사
+						} else if ($('.memberGender').length == 0) {
+							
+							// 기존 유효성 검사 불통과 안내 코멘트 삭제(id 중복 검사 통과 안내 코멘트는 유지)
+							$('#memberPwCheck').html("&nbsp;");
+							$('#memberNameCheck').html("&nbsp;");
+							
+							$('#memberGenderCheck').html($('<small style="color:red;">').text("성별을를 선택해 주세요."));
+						
+						// 모든 유효성 검사를 통과하였으니 회원가입 승인
+						} else {
+							
+							// 유효성 검사를 전부 통과하면 회원가입
+							$('#signUpForm').submit();
+						}
+						
+					})
+				</script>
 			</div>
 		</div>
 	</div>

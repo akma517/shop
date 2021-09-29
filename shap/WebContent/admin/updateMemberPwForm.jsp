@@ -8,6 +8,7 @@
 	<meta charset="UTF-8">
 	<title>자바 송현우</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<style>
 		.center-block{
 		position: absolute;
@@ -63,13 +64,28 @@
 			
 		%>
 			<div class="center-block text-center" style="width:300px; padding:15px;">
-				<h1>비밀번호 수정</h1>
-				<form class="form-group" method="post" action="<%=request.getContextPath()%>/admin/updateMemberPwAction.jsp">
+				<h1>비밀번호 수정</h1><br>
+				<form id="updateMemberPwForm" class="form-group" method="post" action="<%=request.getContextPath()%>/admin/updateMemberPwAction.jsp">
 					<div>새로운 비밀번호 : </div>
-					<div><input class="form-control" type="password" name="memberPwNew"></div>
+					<div><input id="memberPwNew" class="form-control" type="password" name="memberPwNew"></div>
+					<div id="memberPwCheck">&nbsp;</div>
 					<br>
-					<div><input class="btn btn-outline-primary" type="submit" value="비밀번호 수정"></div>
+					<div><button id="updateMemberPwButton" class="btn btn-outline-primary" type="button" >비밀번호 수정</button></div>
+					
 				</form>
+				<script>
+					
+					// 입력받은 비밀번호의 유효성 검사 후, 비밀번호 변경 승인
+ 					$('#updateMemberPwButton').click(function() {
+						
+						if ($('#memberPwNew').val() == '') {
+							$('#memberPwCheck').html($('<small style="color:red;">').text("비밀번호를 입력해 주세요."));
+						}else {
+							$('#updateMemberPwForm"').submit();
+						}
+						
+					})
+				</script>
 			<%
 				System.out.println("[debug] updateMemberPwForm.jsp 로직 종료");
 			%>

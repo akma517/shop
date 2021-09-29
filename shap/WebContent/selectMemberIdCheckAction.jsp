@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="vo.Member"%>
 <%@page import="dao.MemberDao"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/XML; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 	/* 사전작업 */
@@ -45,21 +46,20 @@
 		
 		System.out.println("[debug] selectMemberIdCheckAction.jsp => 아이디 중복 여부 검증 : 통과");
 		
-		// 자바에서 한글을 get 메소드로 보낼 때 한글이 안 깨지도록 하는 메소드 URLEncoder.encode(값, 인코딩)을 사용(https://dream-space.tistory.com/10)
-		response.sendRedirect(request.getContextPath() + "/insertMemberForm.jsp?memberIdCheck="+ URLEncoder.encode("사용 가능한 아이디입니다.","utf-8") +"&checkedMemberId="+member.getMemberId());
-		
-		System.out.println("[debug] insertMemberAction.jsp 로직 종료");
-		
-		return;
+/* 		// 자바에서 한글을 get 메소드로 보낼 때 한글이 안 깨지도록 하는 메소드 URLEncoder.encode(값, 인코딩)을 사용(https://dream-space.tistory.com/10)
+		response.sendRedirect(request.getContextPath() + "/insertMemberForm.jsp?memberIdCheck="+ URLEncoder.encode("사용 가능한 아이디입니다.","utf-8") +"&checkedMemberId="+member.getMemberId()); */
 		
 	} else {
 		
 		System.out.println("[debug] selectMemberIdCheckAction.jsp => 아이디 중복 여부 검증 : 실패(이미 사용 중인 아이디)");
-		response.sendRedirect(request.getContextPath() + "/insertMemberForm.jsp?memberIdCheck="+ URLEncoder.encode("이미 사용 중인 아이디입니다.","utf-8"));
 		
-		System.out.println("[debug] insertMemberAction.jsp 로직 종료");
-		
-		return;
+/* 		response.sendRedirect(request.getContextPath() + "/insertMemberForm.jsp?memberIdCheck="+ URLEncoder.encode("이미 사용 중인 아이디입니다.","utf-8")); */
+
 	}
 	
+	System.out.println("[debug] insertMemberAction.jsp 로직 종료");
+	
 %>
+<checkMemberId>
+	<exist><%=confirm %></exist>
+</checkMemberId>

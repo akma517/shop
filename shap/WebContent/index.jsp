@@ -1,3 +1,5 @@
+<%@page import="dao.NoticeDao"%>
+<%@page import="vo.Notice"%>
 <%@page import="vo.Category"%>
 <%@page import="vo.Ebook"%>
 <%@page import="dao.EbookDao"%>
@@ -33,12 +35,14 @@
     final int ROW_PER_PAGE = 20;
     int beginRow = (currentPage-1) * ROW_PER_PAGE;
    
-    // 전자책 리스트 불러오기
+   /* 카테고리 리스트 불러오기 */
     CategoryDao categoryDao = new CategoryDao();
     ArrayList<Category> categoryList = categoryDao.selectCategoryListByAdmin();
     
     
+    /* 전자책 리스트 불러오기 */
     EbookDao ebookDao = new EbookDao();
+    
     // 검색 조건에 맞는 전자책 개수 구하기
     int countEbookList = ebookDao.selectCountSearchedEbook(searchEbookTitle, searchCategoryName);
     
@@ -50,6 +54,12 @@
     
      // 등록순(desc)으로 상위 전자책 5개를 노출
      ArrayList<Ebook> ebookListNew = ebookDao.selectEbookListNew();
+     
+     /* 공지사항 리스트 불러오기 */
+     NoticeDao noticeDao = new NoticeDao();
+     
+     // 가장 최신의 공지사항 5개만 가져오기
+     ArrayList<Notice> noticeList = noticeDao.selectNoticeList(0, 5, "ALL");
     
 %>   
 <!DOCTYPE html>
@@ -118,7 +128,7 @@
 											<img src="<%=request.getContextPath()%>/images/<%=ebook.getEbookImg()%>" width="200px" height="200px">
 										</a>
 									</div>
-									<a href="<%=request.getContextPath()%>/selectEbookOneByIndex.jsp?ebookNo=<%=ebook.getEbookNo() %>">
+									<a href="<%=request.getContextPath()%>/selectEbookOneByIndex.jsp?ebookNo=<%=ebook.getEbookNo() %>" style="color: black;">
 										제목: <%=ebook.getEbookTitle()%>
 									</a>
 									<div>종류: <%=ebook.getCategoryName()%></div>
@@ -144,7 +154,7 @@
 											<img src="<%=request.getContextPath()%>/images/<%=ebook.getEbookImg()%>" width="200px" height="200px">
 										</a>
 									</div>
-									<a href="<%=request.getContextPath()%>/selectEbookOneByIndex.jsp?ebookNo=<%=ebook.getEbookNo() %>">
+									<a href="<%=request.getContextPath()%>/selectEbookOneByIndex.jsp?ebookNo=<%=ebook.getEbookNo() %>" style="color: black;">
 										제목: <%=ebook.getEbookTitle()%>
 									</a>
 									<div>종류: <%=ebook.getCategoryName()%></div>
@@ -154,6 +164,35 @@
 							}
 						%>
 						</tr>
+					</tbody>
+				</table>
+				<br>
+				<div class="d-flex justify-content-between">
+					<h2>최신 소식</h2>
+					<a class="align-self-end" href="<%=request.getContextPath()%>/notice/selectNoticeList.jsp" ><span style="color: grey;">전체 보기</span></a>
+				</div>
+				<table class="table table-border">
+					<tbody>
+						
+						<% 
+							for (Notice notice : noticeList) {
+						%>
+							<tr>
+								<td class="text-left" style="width: 80%">
+									<div>
+										<a href="<%=request.getContextPath()%>/notice/selectNoticeOne.jsp?noticeNo=<%=notice.getNoticeNo() %>" style="color: black;">
+											<%=notice.getNoticeTitle() %>
+										</a>
+									</div>
+								</td>
+								<td class="text-right" style="width: 20%">
+									<div><%=notice.getCreateDate()%></div>
+								</td>
+							</tr>
+						<%
+							}
+						%>
+						
 					</tbody>
 				</table>
 				<br>
@@ -189,7 +228,7 @@
 											<img src="<%=request.getContextPath()%>/images/<%=ebook.getEbookImg()%>" width="200px" height="200px">
 										</a>
 									</div>
-									<a href="<%=request.getContextPath()%>/selectEbookOneByIndex.jsp?ebookNo=<%=ebook.getEbookNo() %>">
+									<a href="<%=request.getContextPath()%>/selectEbookOneByIndex.jsp?ebookNo=<%=ebook.getEbookNo() %>" style="color: black;">
 										제목: <%=ebook.getEbookTitle()%>
 									</a>
 									<div>종류: <%=ebook.getCategoryName()%></div>

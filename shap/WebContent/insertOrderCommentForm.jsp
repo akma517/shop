@@ -40,6 +40,7 @@
 	<meta charset="UTF-8">
 	<title>자바 송현우</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<style type="text/css">
 		.center-block{
 			position: absolute;
@@ -60,9 +61,9 @@
 		<!-- 서브메뉴 종료 -->
 		<div class="container pt-3 center-block"">
 			<div class="center-block text-center" >
-				<h1> 리뷰 작성 </h1>
-				<form class="form" method="post" action="<%=request.getContextPath()%>/insertOrderCommentAction.jsp"  >
-					<table class="table" >
+				<h1> 리뷰 작성 </h1><br>
+				<form id="insertOrderCommentForm" class="form" method="post" action="<%=request.getContextPath()%>/insertOrderCommentAction.jsp"  >
+					<table class="table table-borderless" >
 						<tr>
 							<td class="align-middle">
 								별점
@@ -101,19 +102,32 @@
 						</tr>
 						<tr>
 							<td class="align-middle">
-								내용
+								<div>내용</div>
+								<div>&nbsp;</div>
 							</td>
 							<td class="align-middle" colspan="2">
-								<div class="form-group"><textarea name="orderCommentContent" class="form-control" rows="5" cols="50" wrap="hard"></textarea></div>
+								<div class="form-group"><textarea id="orderCommentContent" name="orderCommentContent" class="form-control" rows="5" cols="50" wrap="hard"></textarea></div>
+								<div id="orderCommentContentCheck">&nbsp;</div>
 							</td>
 						</tr>
-						<tr>
-							<td colspan="3">
-								<input class="btn btn-outline-primary text-center" type="submit" value="작성">
-							</td>
-						</tr>
-					</table>
+					</table><br>
+					<div>
+						<button type="button" id="insertOrderCommentButton" class="btn btn-outline-primary">등록</button>
+					</div>
 				</form>
+				<script>
+					
+					// 유효성 검사 후, 등록 승인
+ 					$('#insertOrderCommentButton').click(function() {
+						
+						if ($('#orderCommentContent').val() == '') {
+							$('#orderCommentContentCheck').html($('<small style="color:red;">').text("내용을 입력해 주세요."));
+						} else {
+							$('#insertOrderCommentForm').submit();
+						}
+						
+					})
+				</script>
 			</div>
 		</div>
 	</div>

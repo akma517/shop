@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<title>자바 송현우</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<style type="text/css">
 		.center-block{
 			position: absolute;
@@ -16,7 +17,6 @@
 			z-index: 1;
 		}
 	</style>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 	<div class="container-fluid pt-3">
@@ -25,8 +25,8 @@
 			<jsp:include page="/partial/submenu.jsp"></jsp:include>
 		</div>
 		<!-- 서브메뉴 종료 -->
-		<div class="container pt-3 center-block" style="width:330px; padding:15px;">
-			<div class="center-block text-center" style="width:300px; padding:15px;">
+		<div class="container pt-3 center-block">
+			<div class="center-block text-center">
 				<%
 					/* 사전작업 */
 					request.setCharacterEncoding("utf-8");
@@ -43,35 +43,47 @@
 					}
 					
 				%>
-				<h1>로그인</h1>
+				<h1>로그인</h1><br>
 				<form id="loginForm" class="form-group" method="post" action="<%=request.getContextPath()%>/loginAction.jsp">
-					<div>MemberId : </div>
-					<div><input class="form-control" type="text" name="memberId" id="memberId"></div>
-					<div>MemberPw : </div>
-					<div><input class="form-control" type="password" name="memberPw" id="memberPw"></div>
-					<br>
-					<div><button id="loginButton" class="btn btn-outline-primary">로그인</button></div>
+					<table>
+						<tr>
+							<td class="text-left align-middle" width="30%">아이디</td>
+							<td><input class="form-control" type="text" name="memberId" id="memberId"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td id="memberIdCheck">&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="text-left align-middle" width="30%">비밀번호</td>
+							<td><input class="form-control" type="password" name="memberPw" id="memberPw"></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td id="memberPwCheck">&nbsp;</td>
+						</tr>
+					</table><br>
+					<div>
+						<button type="button" id="loginButton" class="btn btn-outline-primary">로그인</button>
+					</div>
 				</form>
 				<script>
 					// %(() == jquery()
-					$('#loginButton').click(function() {
+ 					$('#loginButton').click(function() {
+						
 						if ($('#memberId').val() == '') {
-							alert('memberId를 입력해 주세요.');
+							$('#memberIdCheck').html($('<small style="color:red;">').text("아이디를 입력해 주세요."));
 						} else if ($('#memberPw').val() == '') {
-							alert('memberPw를 입력해 주세요.');
+							// id를 입력했으므로 입력해 달라는 코멘트를 삭제
+							$('#memberIdCheck').html("&nbsp;");
+							
+							$('#memberPwCheck').html($('<small style="color:red;">').text("비밀번호를 입력해 주세요."));
+							
+						} else {
+							$('#loginForm').submit();
 						}
 						
-						$("#loginForm").submit();
 					})
-					
-					/* 라디오, 체크, 셀레트 등의 다중 값 태그들에게 유효성 검사하는 법(클래스로 선택하는 것이 좋음(배열로 받음))
-					$('#loginButton').click(function() {
-						if ($('.radioButton').length == 0)) {
-							alert('버튼을 하나 이상 선택해 주세요.');
-						} 
-						$("#loginForm").submit();
-					})
-					 */
 				</script>
 			</div>
 		</div>

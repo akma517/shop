@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<title>자바 송현우</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>	
 	<style type="text/css">
 		.center-block{
 			position: absolute;
@@ -55,56 +56,102 @@
 				}
 			%>
 			<div class="center-block text-center" >
-				<h1> 카테고리 추가 </h1>
-				<table class="table" >
-					<form class="form" method="post" action="<%=request.getContextPath()%>/admin/selectCategoryNameCheckAction.jsp" >
+				<h1> 카테고리 추가 </h1><br>
+				<form id="insertCategoryForm" class="form-group" method="post" action="<%=request.getContextPath()%>/admin/insertCategoryAction.jsp" >
+					<table class="table table-borderless" >
 						<tr>
 							<td class="align-middle">
-								이름 중복 검사
+								이름
+								<div>&nbsp;</div>
 							</td>
 							<td>
-								<input class="form-control" type="text" name="categoryName">
+								<input class="form-control" type="text" name="categoryName" id="categoryName">
+								<div id="categoryNameCheck">&nbsp;</div>
 							</td>
 							<td>
-								<input class="btn btn-outline-primary" type="submit" value="중복검사">
+								<button id="categoryNameCheckButton" class="btn btn-outline-primary text-center" type="button">중복검사</button>
+								<div>&nbsp;</div>
 							</td>
 						</tr>
-					</form>
-					<form class="form-group" method="post" action="<%=request.getContextPath()%>/admin/insertCategoryAction.jsp" >
-					<tr>
-						<td class="align-middle">
-							이름
-						</td>
-						<td>
-							<input class="form-control" type="text" name="categoryName" readonly="readonly" value="<%=checkedCategoryName %>">
-							<%=categoryNameCheck%>
-						</td>
-						<td>
-							
-						</td>
-					</tr>
-					<tr>
-						<td class="align-middle">
-							사용여부
-						</td>
-						<td>
-							<div class="form-group">
-								<label for="memberLevel">등급</label>
-								<select class="form-control" name="categoryState">
-							    	<option value="Y">사용</option>
-							    	<option value="N">미사용</option>
-								</select>
-							</div>
-						</td>
-						<td>
-						</td>
-					<tr>
-						<td colspan="3">
-							<input class="btn btn-outline-primary text-center" type="submit" value="카테고리 추가">
-						</td>
-					</tr>
+						<tr>
+							<td class="align-middle">
+								사용여부
+							</td>
+							<td>
+								<div class="form-group">
+									<select class="form-control" name="categoryState">
+								    	<option value="Y">사용</option>
+								    	<option value="N">미사용</option>
+									</select>
+								</div>
+							</td>
+						</tr>
+					</table>
 				</form>
-			</table>
+				<div>
+					<button id="categoryInsertButton" class="btn btn-outline-primary text-center" type="button">카테고리 추가</button>
+				</div>
+				<script>
+					
+					// 카테고리 이름 중복 여부를 확인할 변수 (입력한 카테고리 이름이 DB에 존재하지 않아야 통과(값이 0이 되야 통과))
+					let existCategoryName = 1;
+					
+					// ajax와 XML 방식을 통해 페이지 이동 없이 selectCategoryNameCheckAction.jsp의 로직을 수행
+					// 중복 검사를 하기 전, 입력받은 아이디 값이 공백이라면, 먼저 아이디 값을 입력해 달라고 알림 
+					$('#categoryNameCheckButton').click(function() {
+						if ($('#categoryName').val() == '') {
+							$('#categoryNameCheck').html($('<small style="color:red;">').text("이름를 입력해 주세요."));
+						} else {
+								xhr = new XMLHttpRequest();
+								
+								let categoryNameCheck = $('#categoryName').val();
+								
+								let address = '<%=request.getContextPath()%>/admin/selectCategoryNameCheckAction.jsp?categoryName=' + categoryNameCheck;
+								console.log(address);
+								
+								xhr.open('GET',address, true);
+								xhr.onreadystatechange = function(){
+									if (xhr.readyState == 4) {
+										if(xhr.status == 200) {
+											let data = xhr.responseXML.getElementsByTagName("exist");
+											console.log("요청 성공:" + xhr.status);
+											
+											if (data[0].childNodes[0].nodeValue == 0) {
+												existCategoryName = 0;
+												$('#categoryNameCheck').html($('<small style="color:green;">').text("사용 가능한 이름입니다."));
+											} else {
+												$('#categoryNameCheck').html($('<small style="color:red;">').text("이미 사용중인 이름입니다."));
+											}
+											
+										} else {
+											console.log("요청 실패:" + xhr.status);
+										}
+									}
+								}
+								xhr.send(null);
+							}
+					})
+					
+					/* 유효성 검사 이벤트 */
+					// 입력받아야 할 항목들의 값이 공백인지 아닌지, 아이디 중복 검사는 통과하였는지를 검사하고
+					// 부족한 것이 있다면 이를 알려 이용자에게 정상적으로 값을 받을 수 있게 끔 구현
+					// 이 페이지에선 중복 검사만 하면 되기에 중복 검사만 확인한 후, insert 작업 진행
+ 					$('#categoryInsertButton').click(function() {
+						
+ 						// 중복 검사
+						if (existCategoryName !=0 ) {
+							
+							$('#categoryNameCheck').html($('<small style="color:red;">').text("중복검사를 통과해 주세요."));
+						
+						// 모든 유효성 검사를 통과하였으니 회원가입 승인
+						} else {
+							
+							$('#insertCategoryForm').submit();
+						}
+						
+					})
+					
+				</script>
 			</div>
 		</div>
 	</div>
