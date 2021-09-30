@@ -1,6 +1,7 @@
 package vo;
 
 public class NoticeMember {
+	
 	private Notice notice;
 	private Member member;
 	
@@ -16,4 +17,5 @@ public class NoticeMember {
 	public void setMember(Member member) {
 		this.member = member;
 	}
+	
 }

@@ -1,6 +1,7 @@
 package vo;
 
 public class Ebook {
+	
 	   public int ebookNo;
 	   public String ebookISBN;
 	   public String categoryName;
@@ -93,6 +94,5 @@ public class Ebook {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
-	   
 	   
 }

@@ -1,6 +1,7 @@
 package vo;
 
 public class OrderComment {
+	
 	private int orderCommentNo;
 	private int orderNo;
 	private int ebookNo;
@@ -9,6 +10,7 @@ public class OrderComment {
 	private String orderCommentContent;
 	private String createDate;
 	private String updateDate;
+	
 	public int getOrderCommentNo() {
 		return orderCommentNo;
 	}
@@ -57,4 +59,5 @@ public class OrderComment {
 	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
 	}
+	
 }

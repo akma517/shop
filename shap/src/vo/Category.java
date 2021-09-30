@@ -1,6 +1,7 @@
 package vo;
 
 public class Category {
+	
 	private String categoryName;
 	private String createDate;
 	private String updateDate;
@@ -30,6 +31,5 @@ public class Category {
 	public void setCategoryState(String categoryState) {
 		this.categoryState = categoryState;
 	}
-	
 	
 }

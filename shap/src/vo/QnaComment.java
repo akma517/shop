@@ -1,9 +1,13 @@
 package vo;
 
 public class QnaComment {
+	
 	private int qnaCommentNo;
 	private int qnaNo;
 	private String qnaCommentContent;
+	private String createDate;
+	private String updateDate;
+	
 	public int getQnaCommentNo() {
 		return qnaCommentNo;
 	}
@@ -34,6 +38,5 @@ public class QnaComment {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
-	private String createDate;
-	private String updateDate;
+	
 }

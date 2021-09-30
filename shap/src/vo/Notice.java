@@ -1,12 +1,14 @@
 package vo;
 
 public class Notice {
+	
 	private int noticeNo;
 	private String noticeTitle;
 	private String noticeContent;
 	private int memberNo;
 	private String createDate;
 	private String updateDate;
+	
 	public int getNoticeNo() {
 		return noticeNo;
 	}

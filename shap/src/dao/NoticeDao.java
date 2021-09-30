@@ -57,7 +57,7 @@ public class NoticeDao {
 		// 주문 목록을 담을 리스트 생성
 		int countNoticeList = 0;
 		
-		while(rs.next()) {
+		if (rs.next()) {
 			
 			countNoticeList = rs.getInt(1);
 			
@@ -253,7 +253,7 @@ public class NoticeDao {
 		Connection conn = dbUtil.getConnection();
 				
 		// 쿼리문 생성
-		String sql = "INSERT INTO notice VALUES(notice_title=?, notice_content=?, member_no=?, create_date=NOW(), update_date=Now())";
+		String sql = "INSERT INTO notice(notice_title, notice_content, member_no, create_date, update_date) VALUES (?, ?, ?, NOW(), NOW())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		// 쿼리문 세팅
@@ -329,7 +329,7 @@ public class NoticeDao {
 		Connection conn = dbUtil.getConnection();
 				
 		// 쿼리문 생성
-		String sql = "DLETE FORM notice WHERE notice_no=? AND member_no=?";
+		String sql = "DELETE FROM notice WHERE notice_no=? AND member_no=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		// 쿼리문 세팅

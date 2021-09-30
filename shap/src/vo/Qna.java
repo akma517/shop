@@ -1,6 +1,7 @@
 package vo;
 
 public class Qna {
+	
 	private int qnaNo;
 	private String qnaTitle;
 	private String qnaCategory;
@@ -8,6 +9,7 @@ public class Qna {
 	private int memberNo;
 	private String createDate;
 	private String updateDate;
+	
 	public int getQnaNo() {
 		return qnaNo;
 	}
@@ -50,4 +52,5 @@ public class Qna {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
+	
 }

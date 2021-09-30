@@ -67,5 +67,4 @@ public class Order {
 		this.updateDate = updateDate;
 	}
 	
-	
 }

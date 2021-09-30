@@ -18,7 +18,7 @@
 	// 로그인 정보가 없어도 열람은 가능하도록 강제 이동시키지 않음
     Member loginMember = (Member)session.getAttribute("loginMember");
     
- 	// 전자책 상세보기 설정
+ 	// 공지사항 상세보기 설정
     int noticeNo = 1;
     if(request.getParameter("noticeNo") != null) {
     	noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
@@ -60,7 +60,7 @@
 			<jsp:include page="/partial/submenu.jsp"></jsp:include>
 		</div>
 		<!-- 서브메뉴 종료 -->
-		<div class="text-center" style="padding-top:50px;"><h1>상품 상세보기</h1></div>
+		<div class="text-center" style="padding-top:50px;"><h1>공지사항 상세보기</h1></div>
 		<div class="container center-block" style="padding-top:50px;">
 			<table class="table table-bordered">
 				<tbody>
@@ -76,20 +76,21 @@
 						<td class="text-center align-middle table-active" >작성자</td>
 						<td class="text-center align-middle" colspan="2" ><%=noticeMember.getMember().getMemberName()%>[<%=noticeMember.getMember().getMemberId()%>]</td>
 					</tr>
-					<tr>
-						<td class="text-center align-middle" colspan="9" ><%=noticeMember.getNotice().getNoticeContent() %></td>
+					<tr style="height:400px;">
+						<td class="text-left" colspan="9" style="padding: 40px;"><%=noticeMember.getNotice().getNoticeContent() %></td>
 					</tr>
 				</tbody>
 			</table>
 			<div class="text-right">
 				<%
-					if (loginMember != null && loginMember.getMemberLevel() < 1) {
+					if ( (loginMember != null) && (loginMember.getMemberLevel() > 0) && (loginMember.getMemberNo() == noticeMember.getMember().getMemberNo()) ) {
 				%>
-						<a href="<%=request.getContextPath() %>/notice/deleteNoticeAction.jsp?noticekNo=<%=noticeMember.getNotice().getNoticeNo()%>" class="btn btn-outline-danger btn-sm">삭제하기</a>
-						<a href="<%=request.getContextPath() %>/notice/updateNoticeAction.jsp?noticekNo=<%=noticeMember.getNotice().getNoticeNo()%>" class="btn btn-outline-warning btn-sm">수정하기</a>
+						<a href="<%=request.getContextPath() %>/notice/deleteNoticeAction.jsp?noticeNo=<%=noticeMember.getNotice().getNoticeNo()%>&memberNo=<%=noticeMember.getMember().getMemberNo() %>" class="btn btn-outline-danger btn-sm">삭제하기</a>
+						<a href="<%=request.getContextPath() %>/notice/updateNoticeForm.jsp?noticeNo=<%=noticeMember.getNotice().getNoticeNo()%>" class="btn btn-outline-warning btn-sm">수정하기</a>
 				<%
 					}
 				%>			
+				<a href="<%=request.getContextPath() %>/notice/selectNoticeList.jsp" class="btn btn-outline-primary btn-sm">공지사항 목록</a>
 				<a href="<%=request.getContextPath() %>/index.jsp" class="btn btn-outline-primary btn-sm">홈페이지</a>
 			</div>
 		</div>

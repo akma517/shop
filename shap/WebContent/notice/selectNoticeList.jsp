@@ -15,6 +15,8 @@
 	request.setCharacterEncoding("utf-8");
 	System.out.println("[debug] selectNoticeList.jsp 로직 진입");	
 	
+	// 로그인 정보가 없어도 열람은 가능하도록 강제 이동시키지 않음
+    Member loginMember = (Member)session.getAttribute("loginMember");
     
  	// 페이지 설정
     int currentPage = 1;
@@ -93,6 +95,16 @@
 					%>
 				</tbody>
 			</table>
+			<div class="text-right">
+				<%
+					if ( (loginMember != null) && (loginMember.getMemberLevel() > 0)) {
+				%>
+						<a href="<%=request.getContextPath() %>/notice/insertNoticeForm.jsp" class="btn btn-outline-primary btn-sm">등록</a>
+				<%
+					}
+				%>			
+				<a href="<%=request.getContextPath() %>/index.jsp" class="btn btn-outline-primary btn-sm">홈페이지</a>
+			</div>
 			<div class="text-center">
 				<!-- 네비게이션 페이징 스타일 적용  -->	
 				<ul class="pagination justify-content-center" style="margin:20px 0">
@@ -167,9 +179,6 @@
 						<input class="btn btn-outline-info" type="submit"  value="검색">
 					</div>		
 				</form>
-			</div>
-			<div class="text-right">
-				<a href="<%=request.getContextPath() %>/index.jsp" class="btn btn-outline-primary btn-sm">홈페이지</a>
 			</div>
 		</div>
 	</div>

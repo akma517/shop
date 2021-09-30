@@ -11,6 +11,7 @@ public class Member {
 	private String memberGender;
 	private String updateDate;
 	private String createDate;
+	
 	public int getMemberNo() {
 		return memberNo;
 	}
@@ -65,6 +66,5 @@ public class Member {
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
-	
 	
 }

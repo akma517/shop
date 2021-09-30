@@ -1,6 +1,7 @@
 package vo;
 
 public class OrderCommentMember {
+	
 	private OrderComment orderComment;
 	private Member member;
 	
@@ -16,4 +17,5 @@ public class OrderCommentMember {
 	public void setMember(Member member) {
 		this.member = member;
 	}
+	
 }
