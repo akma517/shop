@@ -6,6 +6,7 @@ public class Qna {
 	private String qnaTitle;
 	private String qnaCategory;
 	private String qnaSecret;
+	private String qnaContent;
 	private int memberNo;
 	private String createDate;
 	private String updateDate;
@@ -51,6 +52,18 @@ public class Qna {
 	}
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
+	}
+	public String getQnaContent() {
+		return qnaContent;
+	}
+	public void setQnaContent(String qnaContent) {
+		this.qnaContent = qnaContent;
+	}
+	@Override
+	public String toString() {
+		return "Qna [qnaNo=" + qnaNo + ", qnaTitle=" + qnaTitle + ", qnaCategory=" + qnaCategory + ", qnaSecret="
+				+ qnaSecret + ", qnaContent=" + qnaContent + ", memberNo=" + memberNo + ", createDate=" + createDate
+				+ ", updateDate=" + updateDate + "]";
 	}
 	
 }

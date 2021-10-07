@@ -60,7 +60,7 @@
      
      // 가장 최신의 공지사항 5개만 가져오기
      ArrayList<Notice> noticeList = noticeDao.selectNoticeList(0, 5, "ALL");
-    
+
 %>   
 <!DOCTYPE html>
 <html>
@@ -87,32 +87,6 @@
 		<div class="container-fluid center-block" style="padding-top:50px;">
 			<div class="text-center" style="padding-top:50px;">
 				<h1>홈페이지</h1>
-				<%
-					// session은 참조 타입만 들어간다.
-					if(session.getAttribute("loginMember") == null) {
-				%>
-						<!-- 로그인 전 -->
-						<div><a href="<%=request.getContextPath()%>/loginForm.jsp">로그인</a></div>
-						<div><a href="<%=request.getContextPath()%>/insertMemberForm.jsp">회원가입</a></div>
-				<%
-					} else {
-						Member loginMember = (Member)session.getAttribute("loginMember");
-				%>
-						<!-- 로그인 후 -->
-						<div><%=loginMember.getMemberName() %>님 반갑습니다.<br>
-							<a href="<%=request.getContextPath()%>/logOut.jsp">로그아웃</a><br>
-							<a href="<%=request.getContextPath()%>/selectMembeerInfo.jsp?memberNo=<%=loginMember.getMemberNo() %>">회원정보</a><br>
-							<a href="<%=request.getContextPath()%>/selectOrderListByMember.jsp?memberNo=<%=loginMember.getMemberNo() %>">주문내역</a>
-						</div>
-				<%
-					
-						if (loginMember.getMemberLevel() >= 1) {
-				%>
-				 			<div><a href="<%=request.getContextPath()%>/admin/adminIndex.jsp">관리자 페이지</a></div>
-				<%
-						}
-					}
-				%>
 			</div>
 			<div class="container-fluid center-block" style="padding-top:50px;">
 				<h2>신규 상품</h2>

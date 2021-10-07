@@ -17,5 +17,9 @@ public class NoticeMember {
 	public void setMember(Member member) {
 		this.member = member;
 	}
+	@Override
+	public String toString() {
+		return "NoticeMember [notice=" + notice + ", member=" + member + "]";
+	}
 	
 }

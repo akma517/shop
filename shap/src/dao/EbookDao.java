@@ -225,7 +225,7 @@ public class EbookDao {
 		return ebook;
 	}
 	
-	/* [관리자] [고객 ]검색된 전자책 목록 출력(select) */
+	/* [관리자, 고객]검색된 전자책 목록 출력(select) */
 	// input: int => beginRow, rowPerPage, String => searchEbookTitle, searchCategoryName
 	// output(success): ArrayList<Ebook> => ebookNo, ebookTitle, categoryName, ebookState, ebookImg
 	// output(false): ArrayList<Ebook> => null

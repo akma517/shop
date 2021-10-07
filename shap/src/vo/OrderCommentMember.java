@@ -17,5 +17,4 @@ public class OrderCommentMember {
 	public void setMember(Member member) {
 		this.member = member;
 	}
-	
 }

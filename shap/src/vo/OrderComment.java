@@ -59,5 +59,12 @@ public class OrderComment {
 	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
 	}
+	@Override
+	public String toString() {
+		return "OrderComment [orderCommentNo=" + orderCommentNo + ", orderNo=" + orderNo + ", ebookNo=" + ebookNo
+				+ ", memberNo=" + memberNo + ", orderScore=" + orderScore + ", orderCommentContent="
+				+ orderCommentContent + ", createDate=" + createDate + ", updateDate=" + updateDate + "]";
+	}
+	
 	
 }

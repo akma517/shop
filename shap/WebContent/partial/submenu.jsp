@@ -1,3 +1,4 @@
+<%@page import="vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -6,12 +7,47 @@
 <!-- 서브메뉴 모듈 -->    
 <div>
 	<ul class="nav justify-content-end">
+		<%
+			Member loginMember = (Member)session.getAttribute("loginMember");
+			// session은 참조 타입만 들어간다.
+			if( loginMember != null) {
+				
+		%>
+				<!-- 로그인 전 -->
+				<li class="nav-item"><span style="color: black; font-size: 25px"><%=loginMember.getMemberName() %>님</span></li>
+		<%
+			}
+		%>
+		
 		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/index.jsp">홈페이지</a></li>
-		<li class="nav-item"><a class="nav-link" href="">menu1</a></li>
-		<li class="nav-item"><a class="nav-link" href="#">menu2</a></li>
-		<li class="nav-item"><a class="nav-link" href="#">menu3</a></li>
-		<li class="nav-item"><a class="nav-link" href="#">menu4</a></li>
-		<li class="nav-item"><a class="nav-link" href="#">menu5</a></li>
+		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/notice/selectNoticeList.jsp">공지사항</a></li>
+		<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/qna/selectQnaList.jsp">Q&A</a></li>
+		
+		<%
+			// session은 참조 타입만 들어간다.
+			if( loginMember == null) {
+		%>
+				<!-- 로그인 전 -->
+				<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/loginForm.jsp">로그인</a></li>
+				<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/insertMemberForm.jsp">회원가입</a></li>
+		<%
+			} else {
+				
+		%>
+				<!-- 로그인 후 -->
+				<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/selectOrderListByMember.jsp?memberNo=<%=loginMember.getMemberNo() %>">주문내역</a></li>
+		<%
+				if (loginMember.getMemberLevel() >= 1) {
+		%>
+		 			<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/admin/adminIndex.jsp">관리자 페이지</a></li>
+		<%
+				}
+		%>
+				<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/selectMembeerInfo.jsp?memberNo=<%=loginMember.getMemberNo() %>">회원정보</a></li>
+				<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/logOut.jsp">로그아웃</a></li>
+		<%
+			}
+		%>
 	</ul>
 </div>
 <%
