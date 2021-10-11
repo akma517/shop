@@ -1,3 +1,5 @@
+<%@page import="vo.QnaCommentMember"%>
+<%@page import="dao.QnaCommentDao"%>
 <%@page import="vo.QnaMember"%>
 <%@page import="vo.Qna"%>
 <%@page import="dao.QnaDao"%>
@@ -31,9 +33,12 @@
     Qna qna = new Qna();
     qna.setQnaNo(qnaNo);
     
-    
-    // 검색 조건에 맞는 qna 목록 가져오기
+    // 상세보기 할 qna 가져오기
     QnaMember qnaMember = qnaDao.selectQnaOne(qna);
+    
+    // qna에 작성된 댓글들 가져오기
+	QnaCommentDao qnaCommentDao = new QnaCommentDao();
+	ArrayList<QnaCommentMember> qnaCommentMemberList = qnaCommentDao.selectQnaCommentList(qnaNo);
     
 %>   
 <!DOCTYPE html>
@@ -85,28 +90,36 @@
 				<%
 					}
 				%>			
-				<a href="<%=request.getContextPath() %>/qna/selectQnaList.jsp" class="btn btn-outline-primary btn-sm">공지사항 목록</a>
+				<a href="<%=request.getContextPath() %>/qna/selectQnaList.jsp" class="btn btn-outline-primary btn-sm">Q&A 목록</a>
 				<a href="<%=request.getContextPath() %>/index.jsp" class="btn btn-outline-primary btn-sm">홈페이지</a>
 			</div>
 			<br>
-			<!-- 댓글 파트 -->
-			<div>
-				<form action="<%=request.getContextPath() %>/qnaComment/insertQnaCommentAction.jsp" metohd="post">
-					<input type="hidden" name="qnaNo" value="<%=qnaNo %>">
-					<div class="form-group">
-						<label for="comment">Comment:</label>
-						<textarea name="commentContent" rows="5" class="form-control"></textarea>
+			<!-- 댓글 파트, 작성자와 관리자만 댓글 입력 폼이 보이도록 설정, 작성된 댓글은 모든 회원이 볼 수 있도록 설정 -->
+			<%
+				if ( loginMember != null  && ( (loginMember.getMemberNo() == qnaMember.getMember().getMemberNo()) || (loginMember.getMemberNo() >= 1))) {
+			%>
+					<div>
+						<form action="<%=request.getContextPath() %>/qna/insertQnaCommentAction.jsp" method="post">
+							<input type="hidden" name="qnaNo" value="<%=qnaNo %>">
+							<input type="hidden" name="memberNo" value="<%=loginMember.getMemberNo() %>">
+							<div class="form-group">
+								<label for="comment">Comment:</label>
+								<textarea id="qnaCommentContent" name="qnaCommentContent" rows="5" class="form-control"></textarea>
+							</div>
+							<div class="text-right">
+								<button class="btn btn-outline-primary">댓글입력</button>
+							</div>
+						</form>
 					</div>
-					<div class="text-right">
-						<button class="btn btn-outline-primary">댓글입력</button>
-					</div>
-				</form>
-			</div>
-			<br>
-			<!-- 댓글목록 출력, 10개씩 페이징~ -->
+					<br>
+			<%
+				}
+			%>			
+
+			<!-- 댓글목록 출력-->
 			<div>
 				<%
-		
+					
 					
 				%>
 				<!-- tr의 테두리 부분 넣기위한 속성) talbe:style="border-collapse: collapse" -->
@@ -118,6 +131,30 @@
 							<th class="text-left" ><h2>댓글목록</h2></th>
 						</tr>
 					</thead>
+					<tbody>
+						<%
+							for(QnaCommentMember qcm : qnaCommentMemberList){
+						%>
+							<tr style="border-bottom: 1px solid grey;">
+								<td class="text-left align-middle"><%=qcm.getMember().getMemberName()%>[<%=qcm.getMember().getMemberId()%>]</td>
+								<td class="text-right">
+									<%=qcm.getQnaComment().getCreateDate() %>
+									<%
+										if ( loginMember != null  && (loginMember.getMemberNo() == qnaMember.getMember().getMemberNo()) ){
+									%>
+											<a href="<%=request.getContextPath() %>/qna/deleteQnaCmmentAction.jsp?qnaNo=<%=qcm.getQnaComment().getQnaNo()%>&memberNo=<%=qcm.getMember().getMemberNo() %>&qnaCommentNo=<%=qcm.getQnaComment().getQnaCommentNo() %>" class="btn btn-outline-danger btn-sm">삭제</a>
+									<%
+										}
+									%>
+								</td>
+							</tr>
+							<tr style="margin-left: 15px; marin-right: 15px; border-bottom: 2px solid grey;" >
+								<td class="text-left align-middle"><%=qcm.getQnaComment().getQnaCommentContent()%></td>
+							</tr>
+						<%
+							}
+						%>
+					</tbody>
 				</table>
 			</div>
 		</div>

@@ -85,7 +85,7 @@
 						</tr>
 						<tr>
 							<td class="align-middle">
-								이름
+								닉네임
 								<div>&nbsp;</div>
 							</td>
 							<td>
@@ -210,7 +210,7 @@
 							$('#memberPwCheck').html("&nbsp;");
 							$('#memberNameCheck').html("&nbsp;");
 							
-							$('#memberGenderCheck').html($('<small style="color:red;">').text("성별을를 선택해 주세요."));
+							$('#memberGenderCheck').html($('<small style="color:red;">').text("성별을 선택해 주세요."));
 						
 						// 모든 유효성 검사를 통과하였으니 회원가입 승인
 						} else {

@@ -4,10 +4,17 @@ public class QnaComment {
 	
 	private int qnaCommentNo;
 	private int qnaNo;
+	private int memberNo;
 	private String qnaCommentContent;
 	private String createDate;
 	private String updateDate;
 	
+	public int getMemberNo() {
+		return memberNo;
+	}
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
+	}
 	public int getQnaCommentNo() {
 		return qnaCommentNo;
 	}
@@ -40,8 +47,9 @@ public class QnaComment {
 	}
 	@Override
 	public String toString() {
-		return "QnaComment [qnaCommentNo=" + qnaCommentNo + ", qnaNo=" + qnaNo + ", qnaCommentContent="
-				+ qnaCommentContent + ", createDate=" + createDate + ", updateDate=" + updateDate + "]";
+		return "QnaComment [qnaCommentNo=" + qnaCommentNo + ", qnaNo=" + qnaNo + ", memberNo=" + memberNo
+				+ ", qnaCommentContent=" + qnaCommentContent + ", createDate=" + createDate + ", updateDate="
+				+ updateDate + "]";
 	}
 	
 }

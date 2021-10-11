@@ -80,8 +80,7 @@
 			<table class="table table-hover">
 				<thead class="thead-light">	
 					<tr class="align-content-center">
-						<th class="text-left" style="width: 20%">&nbsp;종류</th>
-						<th class="text-center" style="width: 40%">제목</th>
+						<th class="text-left" style="width: 60%">&nbsp;제목</th>
 						<th class="text-center" style="width: 20%">작성자</th>
 						<th class="text-right" style="width: 20%">등록날짜&nbsp;</th>
 					</tr>
@@ -89,18 +88,14 @@
 				<tbody>
 					<% 
 						for ( QnaMember qnaMember : qnaMemberList ) {
-							if ( qnaMember.getQna().getQnaSecret().equals("N") || ( qnaMember.getQna().getQnaSecret().equals("Y") && ( qnaMember.getMember().getMemberNo() == loginMember.getMemberNo() ) ) ) {
+							if ( qnaMember.getQna().getQnaSecret().equals("N") || ( qnaMember.getQna().getQnaSecret().equals("Y") && (loginMember != null) && ( qnaMember.getMember().getMemberNo() == loginMember.getMemberNo() ) ) ) {
 					%>
 								<tr>
-									<td class="text-left" style="width: 20%">
-										<%=qnaMember.getQna().getQnaCategory()%>
-									</td>
-									<td class="text-center" style="width: 40%">
+									<td class="text-left" style="width: 60%">
 										<a href="<%=request.getContextPath()%>/qna/selectQnaOne.jsp?qnaNo=<%=qnaMember.getQna().getQnaNo() %>" style="color: black;">
-											<%=qnaMember.getQna().getQnaTitle() %>
+											[<%=qnaMember.getQna().getQnaCategory()%>] <%=qnaMember.getQna().getQnaTitle() %>
 										</a>
 									</td>
-	
 									<td class="text-center" style="width: 20%">
 										<%=qnaMember.getMember().getMemberName() %>[<%=qnaMember.getMember().getMemberId() %>]
 									</td>
@@ -112,10 +107,9 @@
 							} else {
 					%>
 								<tr>
-									<td class="text-left" style="width: 20%">
-										<%=qnaMember.getQna().getQnaCategory()%>
+									<td class="text-left" style="width: 60%">
+										비밀글입니다.
 									</td>
-									<td class="text-center" style="width: 40%">비밀글입니다.</td>
 									<td class="text-center" style="width: 20%">
 										<%=qnaMember.getMember().getMemberName() %>[<%=qnaMember.getMember().getMemberId() %>]
 									</td>

@@ -52,27 +52,27 @@ public class MemberDao {
 	}
 	
 	/* [관리자] 회원 비밀번호 검증(select) */
-	// input: Member => memberId, memberPw
+	// input: Member => memberNo, memberPw
 	// output(success): 1
 	// output(false): 0
-	public int selectMemberPwByAdmin(Member member) throws ClassNotFoundException, SQLException {
+	public int selectMemberPwCompare(Member member) throws ClassNotFoundException, SQLException {
 		
 		// 입력값 디버깅
-		System.out.println("[debug] MemberDao.selectMemberOneComeparePwByAdmin(String memberId, String memberPw) => 탈퇴할 멤버 아이디 : " + member.getMemberId());
-		System.out.println("[debug] MemberDao.selectMemberOneComeparePwByAdmin(String memberId, String memberPw) => 탈퇴할 멤버 비밀번호 : " + member.getMemberPw());
+		System.out.println("[debug] MemberDao.selectMemberPwCompare(Member member) => 멤버 넘버 : " + member.getMemberId());
+		System.out.println("[debug] MemberDao.selectMemberPwCompare(Member member) => 비교할 멤버 비밀번호 : " + member.getMemberPw());
 		
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		
 		// 별칭(alias)를 설정할 때, AS를 안붙여줘도 되고, 별칭이 영어일 경우, ""를 사용해주지 않아도 된다.
-		String sql = "SELECT COUNT(*) FROM member WHERE member_id=? AND member_pw=PASSWORD(?)";
+		String sql = "SELECT COUNT(*) FROM member WHERE member_no=? AND member_pw=PASSWORD(?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
-		stmt.setString(1, member.getMemberId());
+		stmt.setInt(1, member.getMemberNo());
 		stmt.setString(2, member.getMemberPw());
 		
 		// 쿼리 디버깅
-		System.out.println("[debug] MemberDao.selectMemberOneComeparePwByAdmin(String memberId, String memberPw) => 쿼리문 : " + stmt);
+		System.out.println("[debug] MemberDao.selectMemberPwCompare(Member member) => 쿼리문 : " + stmt);
 	
 		ResultSet rs = stmt.executeQuery();
 		
@@ -81,7 +81,7 @@ public class MemberDao {
 			countMember = rs.getInt(1);	
 		}
 					
-		System.out.println("[debug] MemberDao.selectMemberOneComeparePwByAdmin(String memberId, String memberPw) => 입력받은 탈퇴할 멤버 정보와 일치하는 멤버의 수 : " + countMember);
+		System.out.println("[debug] MemberDao.selectMemberPwCompare(Member member) => 입력받은 정보와 일치하는 멤버의 수 : " + countMember);
 
 		rs.close();
 		stmt.close();
@@ -95,10 +95,68 @@ public class MemberDao {
 	// input: String => memberNo
 	// output(success): Member => memberNo, memberId, memberName, memberAge, memberGender, createDate, updateDate, memberLevel
 	// output(false): null
+	public Member selectMemberOne(int memberNo) throws ClassNotFoundException, SQLException {
+		
+		// 입력값 디버깅
+		System.out.println("[debug] MemberDao.selectMemberOne(int memberNo) => 멤버 넘버 : " + memberNo);
+		
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		// 별칭(alias)를 설정할 때, AS를 안붙여줘도 되고, 별칭이 영어일 경우, ""를 사용해주지 않아도 된다.
+		String sql = "SELECT member_no memberNo, member_id memberId, member_name memberName, member_age memberAge, member_gender memberGender, create_date createDate, update_date updateDate, member_level memberLevel FROM member WHERE member_no=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setInt(1, memberNo);
+		
+		// 쿼리 디버깅
+		System.out.println("[debug] MemberDao.selectMemberOne(int memberNo) => 쿼리문 : " + stmt);
+	
+		ResultSet rs = stmt.executeQuery();
+		
+		Member member = null;
+		
+		if(rs.next()) {
+			
+			member = new Member();
+			
+			member.setMemberNo(rs.getInt("memberNo"));
+			member.setMemberId(rs.getString("memberId"));
+			member.setMemberName(rs.getString("memberName"));
+			member.setMemberAge(rs.getInt("memberAge"));
+			member.setMemberGender(rs.getString("memberGender"));
+			member.setCreateDate(rs.getString("createDate"));
+			member.setUpdateDate(rs.getString("updateDate"));
+			member.setMemberLevel(rs.getInt("memberLevel"));
+			
+			// 출력값 디버깅
+			System.out.println("[debug] MemberDao.selectMemberOne(int memberNo) => 멤버 매개변수 : " + member.toString());
+			
+			rs.close();
+			stmt.close();
+			conn.close();
+			
+			return member;
+			
+		}
+		
+		rs.close();
+		stmt.close();
+		conn.close();
+		
+		return null;
+		
+	}
+	
+	
+	/* [회원, 관리자] 회원 정보 출력(select) */
+	// input: String => memberNo
+	// output(success): Member => memberNo, memberId, memberName, memberAge, memberGender, createDate, updateDate, memberLevel
+	// output(false): null
 	public Member selectMemberOneByAdmin(String memberNo) throws ClassNotFoundException, SQLException {
 		
 		// 입력값 디버깅
-		System.out.println("[debug] MemberDao.selectMemberOne(String memberNo) => 멤버 넘버 : " + memberNo);
+		System.out.println("[debug] MemberDao.selectMemberOneByAdmin(String memberNo) => 멤버 넘버 : " + memberNo);
 		
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
@@ -130,14 +188,14 @@ public class MemberDao {
 			member.setMemberLevel(rs.getInt("memberLevel"));
 			
 			// 출력값 디버깅
-			System.out.println("[debug] MemberDao.selectMemberOne(String memberNo) => 멤버 넘버 : " + member.getMemberNo());
-			System.out.println("[debug] MemberDao.selectMemberOne(String memberNo) => 멤버 아이디 : " + member.getMemberId());
-			System.out.println("[debug] MemberDao.selectMemberOne(String memberNo) => 멤버 이름 : " + member.getMemberName());
-			System.out.println("[debug] MemberDao.selectMemberOne(String memberNo) => 멤버 나이 : " + member.getMemberAge());
-			System.out.println("[debug] MemberDao.selectMemberOne(String memberNo) => 멤버 성별 : " + member.getMemberGender());
-			System.out.println("[debug] MemberDao.selectMemberOne(String memberNo) => 멤버 가입날짜 : " + member.getCreateDate());
-			System.out.println("[debug] MemberDao.selectMemberOne(String memberNo) => 멤버 수정날짜 : " + member.getUpdateDate());
-			System.out.println("[debug] MemberDao.selectMemberOne(String memberNo) => 멤버 등급 : " + member.getMemberLevel());
+			System.out.println("[debug] MemberDao.selectMemberOneByAdmin(String memberNo) => 멤버 넘버 : " + member.getMemberNo());
+			System.out.println("[debug] MemberDao.selectMemberOneByAdmin(String memberNo) => 멤버 아이디 : " + member.getMemberId());
+			System.out.println("[debug] MemberDao.selectMemberOneByAdmin(String memberNo) => 멤버 이름 : " + member.getMemberName());
+			System.out.println("[debug] MemberDao.selectMemberOneByAdmin(String memberNo) => 멤버 나이 : " + member.getMemberAge());
+			System.out.println("[debug] MemberDao.selectMemberOneByAdmin(String memberNo) => 멤버 성별 : " + member.getMemberGender());
+			System.out.println("[debug] MemberDao.selectMemberOneByAdmin(String memberNo) => 멤버 가입날짜 : " + member.getCreateDate());
+			System.out.println("[debug] MemberDao.selectMemberOneByAdmin(String memberNo) => 멤버 수정날짜 : " + member.getUpdateDate());
+			System.out.println("[debug] MemberDao.selectMemberOneByAdmin(String memberNo) => 멤버 등급 : " + member.getMemberLevel());
 			
 			rs.close();
 			stmt.close();
@@ -153,6 +211,43 @@ public class MemberDao {
 		
 		return null;
 		
+	}
+	
+	/* [관리자] 회원 정보 수정(update) */
+	// input: Member => memberNo, memberAge, memberGender, memberName
+	// output(success): 1
+	// output(false): 0
+	public int updateMember(Member member) throws ClassNotFoundException, SQLException {
+		
+		// 입력값 디버깅
+		System.out.println("[debug] MemberDao.updateMember(Member member) => 수정할 회원 넘버 : " + member.getMemberNo());
+		System.out.println("[debug] MemberDao.updateMember(Member member) => 수정할 회원의 변경할 나이: " + member.getMemberAge());
+		System.out.println("[debug] MemberDao.updateMember(Member member) => 수정할 회원의 변경할 성별: " + member.getMemberGender());
+		System.out.println("[debug] MemberDao.updateMember(Member member) => 수정할 회원의 변경할 닉네임: " + member.getMemberName());
+		
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		// 별칭(alias)를 설정할 때, AS를 안붙여줘도 되고, 별칭이 영어일 경우, ""를 사용해주지 않아도 된다.
+		String sql = "UPDATE member SET member_age=?, member_gender=?, member_name=? WHERE member_no=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setInt(1, member.getMemberAge());
+		stmt.setString(2, member.getMemberGender());
+		stmt.setString(3, member.getMemberName());
+		stmt.setInt(4, member.getMemberNo());
+		
+		// 쿼리 디버깅
+		System.out.println("[debug] MemberDao.updateMember(Member member) => 쿼리문 : " + stmt);
+		
+		// db 작업 결과 성공 여부 저장
+		int confirm = stmt.executeUpdate();
+		
+		stmt.close();
+		conn.close();
+		
+		return confirm;
+
 	}
 	
 	
@@ -193,6 +288,39 @@ public class MemberDao {
 	// input: Member => memberNo, memberPw
 	// output(success): 1
 	// output(false): 0
+	public int updateMemberPw(Member member) throws ClassNotFoundException, SQLException {
+		
+		// 입력값 디버깅
+		System.out.println("[debug] MemberDao.updateMemberPwn(Member member) => 비밀번호를 수정할 회원 넘버 : " + member.getMemberNo());
+		System.out.println("[debug] MemberDao.updateMemberPw(Member member) => 비밀번호를 수정할 회원의 변경할 비밀번호: " + member.getMemberPw());
+		
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		// 별칭(alias)를 설정할 때, AS를 안붙여줘도 되고, 별칭이 영어일 경우, ""를 사용해주지 않아도 된다.
+		String sql = "UPDATE member SET member_pw=PASSWORD(?) WHERE member_no=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1, member.getMemberPw());
+		stmt.setInt(2, member.getMemberNo());
+		
+		// 쿼리 디버깅
+		System.out.println("[debug] MemberDao.updateMemberPw(Member member) => 쿼리문 : " + stmt);
+		
+		// db 작업 결과 성공 여부 저장
+		int confirm = stmt.executeUpdate();
+		
+		stmt.close();
+		conn.close();
+		
+		return confirm;
+
+	}
+	
+	/* [관리자] 회원 비밀번호 수정(update) */
+	// input: Member => memberNo, memberPw
+	// output(success): 1
+	// output(false): 0
 	public int updateMemberPwByAdmin(Member member) throws ClassNotFoundException, SQLException {
 		
 		// 입력값 디버깅
@@ -203,7 +331,7 @@ public class MemberDao {
 		Connection conn = dbUtil.getConnection();
 		
 		// 별칭(alias)를 설정할 때, AS를 안붙여줘도 되고, 별칭이 영어일 경우, ""를 사용해주지 않아도 된다.
-		String sql = "UPDATE member SET member_pw=? WHERE member_no=?";
+		String sql = "UPDATE member SET member_pw=PASSWORD(?) WHERE member_no=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		stmt.setString(1, member.getMemberPw());
@@ -221,6 +349,38 @@ public class MemberDao {
 		
 		return confirm;
 
+	}
+	
+	/* [회원] 회원탈퇴(delete) */
+	// input: Member => memberNo
+	// output(success): 1
+	// output(false):  0
+	public int deleteMember(Member member) throws ClassNotFoundException, SQLException {
+		
+		// 입력값 디버깅
+		System.out.println("[debug] MemberDao.deleteMember(Member member) => 삭제할 회원 넘버 : " + member.getMemberNo());
+		System.out.println("[debug] MemberDao.deleteMember(Member member) => 삭제할 회원 넘버 : " + member.getMemberPw());
+
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+		// 별칭(alias)를 설정할 때, AS를 안붙여줘도 되고, 별칭이 영어일 경우, ""를 사용해주지 않아도 된다.
+		String sql = "DELETE FROM member WHERE member_no=? AND member_pw=PASSWORD(?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setInt(1, member.getMemberNo());
+		stmt.setString(2, member.getMemberPw());
+		
+		// 쿼리 디버깅
+		System.out.println("[debug] MemberDao.updateMember(Member member) => 쿼리문 : " + stmt);
+		
+		// db 작업 결과 성공 여부 저장
+		int confirm = stmt.executeUpdate();
+		
+		stmt.close();
+		conn.close();
+		
+		return confirm;
 	}
 	
 	/* [관리자] 회원 삭제(delete) */

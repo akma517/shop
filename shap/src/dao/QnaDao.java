@@ -531,7 +531,7 @@ public class QnaDao {
 		Connection conn = dbUtil.getConnection();
 		
 		// 쿼리문 생성
-		String sql = "UPDATE qna SET qna_title=? qna_category=?, qna_content=?, qna_secret=?, update_date=? WHERE qna_no=? AND  member_no=?";
+		String sql = "UPDATE qna SET qna_title=?, qna_category=?, qna_content=?, qna_secret=?, update_date=NOW() WHERE qna_no=? AND  member_no=?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		// 쿼리문 세팅
