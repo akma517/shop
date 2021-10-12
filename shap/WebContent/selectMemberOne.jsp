@@ -44,7 +44,7 @@
 	<div class="container-fluid pt-3">
 		<!-- 서브메뉴 시작 -->
 		<div>
-			<jsp:include page="/partial/adminMenu.jsp"></jsp:include>
+			<jsp:include page="/partial/submenu.jsp"></jsp:include>
 		</div>
 		<!-- 서브메뉴 종료 -->
 		<div class="text-center" style="padding-top:50px;"><h1>회원정보</h1></div>

@@ -224,12 +224,14 @@ public class OrderCommentDao {
 		
 		// db 작업 결과 성공 여부 저장
 		int confirm = stmt.executeUpdate();
+		stmt.close();
 		
 		// 결과 디버깅
 		System.out.println("[debug] OrderCommentDao.insertOrderComment(OrderComment orderComment) => 등록한 리뷰 개수 : " + confirm);
 		
 		// 해당 주문에 리뷰를 작성했음을 갱신하는 쿼리문 생성
-		sql = "UPDATE orders SET order_coment_state=Y WHERE order_no=?";
+		sql = "UPDATE orders SET order_comment_state='Y' WHERE order_no=?";
+		stmt = conn.prepareStatement(sql);
 		
 		// 쿼리문 세팅
 		stmt.setInt(1,  orderComment.getOrderNo());

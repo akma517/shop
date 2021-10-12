@@ -115,7 +115,7 @@
 				<%
 					if (loginMember != null) {
 				%>
-						<a href="<%=request.getContextPath() %>/insertOrderAction.jsp?ebookNo=<%=ebook.getEbookNo() %>" class="btn btn-outline-info btn-sm">주문하기</a>
+						<a href="<%=request.getContextPath() %>/insertOrderAction.jsp?ebookNo=<%=ebook.getEbookNo() %>&orderPrice=<%=ebook.getEbookPrice() %>" class="btn btn-outline-info btn-sm">주문하기</a>
 				<%
 					} else {
 				%>

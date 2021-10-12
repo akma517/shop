@@ -267,4 +267,45 @@ public class OrderDao {
 		return countOrderList;
 	}
 	
+	/* [회원] 상품 주문 넣기(insert) */
+	// input: Order => ebookNo, memberNo, orderPrice
+	// output(success): int => confirm
+	// output(false): 0
+	public int insertOrder(Order order) throws ClassNotFoundException, SQLException  {
+		
+		// 입력값 디버깅
+		System.out.println("[debug] OrderDao.insertOrder(Order order) => 주문정보 매개변수 : " + order.toString());
+		
+		// db 자원 연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		
+
+		// 쿼리문 생성 (주문 리뷰 작성 상태는 기본 값 "N"으로 DB에서 자동으로 삽입해줌)
+		String sql = "INSERT INTO orders(ebook_no, member_no, order_price, create_date, update_date) VALUES(?,?,?,NOW(),NOW())";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+			
+		// 쿼리문 세팅
+		stmt.setInt(1, order.getEbookNo());
+		stmt.setInt(2, order.getMemberNo());
+		stmt.setInt(3, order.getOrderPrice());
+		
+		// 쿼리문 디버깅
+		System.out.println("[debug] OrderDao.insertOrder(Order order) => 쿼리문 : " + stmt);
+		
+		// 쿼리문 실행
+		int confirm = stmt.executeUpdate();
+		
+		
+		// 출력값 디버깅
+		System.out.println("[debug]  OrderDao.insertOrder(Order order) => 주문한 상품 개수 : " + confirm);
+		
+		// db 자원 헤제
+		stmt.close();
+		conn.close();
+		
+		
+		return confirm;
+	}
+	
 }
